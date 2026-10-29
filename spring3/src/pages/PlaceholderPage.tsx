@@ -18,7 +18,7 @@ function PlaceholderPage({ title, description }: PlaceholderPageProps) {
       <p>{description}</p>
       <p className="placeholder-note">{'{Demo dead link}'}</p>
       <Link className="text-link" to="/">
-        Back to Department Workspace
+        Back to UX Team
       </Link>
     </section>
   )
