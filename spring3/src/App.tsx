@@ -1,6 +1,7 @@
 import { Outlet, Route, Routes } from 'react-router-dom'
 import WorkspaceLayout from './components/WorkspaceLayout'
 import AttendanceHistoryPage from './pages/AttendanceHistoryPage'
+import DocumentsPage from './pages/DocumentsPage'
 import MeetingRoomPage from './pages/MeetingRoomPage'
 import MeetingsIndexPage from './pages/MeetingsIndexPage'
 import MyMeetingsPage from './pages/MyMeetingsPage'
@@ -42,15 +43,7 @@ function App() {
             />
           }
         />
-        <Route
-          path="/documents"
-          element={
-            <PlaceholderPage
-              title="Documents"
-              description="Files attached to this workspace, including upload."
-            />
-          }
-        />
+        <Route path="/documents" element={<DocumentsPage />} />
         <Route
           path="/action-items"
           element={

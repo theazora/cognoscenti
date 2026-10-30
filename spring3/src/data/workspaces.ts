@@ -185,9 +185,9 @@ const organization = fillWorkspace({
     { id: 'org-planning-update', title: 'Organization Planning Meeting', detail: 'Agenda, notes and decisions · Jane Doe', kind: 'meeting', date: 'Oct 20', to: '/meetings/org-planning', icon: '/calendar0.svg' },
     { id: 'org-calendar-update', title: 'Shared organization calendar', detail: 'Planning thread for fall dates · Wren Maple', kind: 'discussion', date: 'Today', to: '/discussions', icon: '/msg0.svg' },
     { id: 'ux-template-update', title: 'UX meeting template', detail: 'Shared notes for team leads · Pia North', kind: 'discussion', date: 'Yesterday', to: '/discussions', icon: '/msg0.svg' },
-    { id: 'org-handbook', title: 'Organization handbook', detail: 'Shared policies · Jane Doe', kind: 'doc', date: 'Oct 8', to: '/documents', icon: '/file2.svg' },
-    { id: 'quarterly-plan', title: 'Quarterly plan', detail: 'Planning deck · Mira Finch', kind: 'slides', date: 'Oct 6', to: '/documents', icon: '/slides0.svg' },
-    { id: 'org-chart', title: 'Org chart', detail: 'Structure map · Jules Reed', kind: 'image', date: 'Oct 2', to: '/documents', icon: '/image0.svg' },
+    { id: 'org-handbook', title: 'Organization handbook', detail: 'Shared policies · Jane Doe', kind: 'doc', date: 'Oct 8', to: '/documents?workspace=organization', icon: '/file2.svg' },
+    { id: 'quarterly-plan', title: 'Quarterly plan', detail: 'Planning deck · Mira Finch', kind: 'slides', date: 'Oct 6', to: '/documents?workspace=organization', icon: '/slides0.svg' },
+    { id: 'org-chart', title: 'Org chart', detail: 'Structure map · Jules Reed', kind: 'image', date: 'Oct 2', to: '/documents?workspace=organization', icon: '/image0.svg' },
   ],
   myActionItems: [
     { id: 'org-goals', title: 'Publish organization goals for fall', meta: 'Due Oct 30', to: '/action-items' },
@@ -236,9 +236,9 @@ const ux = fillWorkspace({
     { id: 'fourth-dept', title: '4th UX Team Meeting', detail: 'Agenda, notes and decisions · Jane Doe', kind: 'meeting', date: 'Oct 8', to: '/meetings/fourth-child-group', icon: '/calendar0.svg' },
     { id: 'wireframes', title: 'Low-fidelity wireframes', detail: 'Feedback thread on front page wireframes · Pia North', kind: 'discussion', date: 'Today', to: '/discussions', icon: '/msg0.svg' },
     { id: 'checkpoint', title: 'Combined team checkpoint', detail: 'Status of all sub-teams · Wren Maple', kind: 'discussion', date: 'Yesterday', to: '/discussions', icon: '/msg0.svg' },
-    { id: 'findings', title: 'Front page findings', detail: 'Heuristic analysis of the workspace front page · Pia North', kind: 'slides', date: 'Oct 12', to: '/documents', icon: '/slides0.svg' },
-    { id: 'journeys', title: 'User journey maps', detail: 'Journey maps for current and future state · Robin Quill', kind: 'slides', date: 'Oct 11', to: '/documents', icon: '/slides0.svg' },
-    { id: 'persona', title: 'Placeholder persona', detail: 'Persona draft for review · Mira Finch', kind: 'image', date: 'Oct 10', to: '/documents', icon: '/image0.svg' },
+    { id: 'findings', title: 'Front page findings', detail: 'Heuristic analysis of the workspace front page · Pia North', kind: 'slides', date: 'Oct 12', to: '/documents?workspace=ux', icon: '/slides0.svg' },
+    { id: 'journeys', title: 'User journey maps', detail: 'Journey maps for current and future state · Robin Quill', kind: 'slides', date: 'Oct 11', to: '/documents?workspace=ux', icon: '/slides0.svg' },
+    { id: 'persona', title: 'Placeholder persona', detail: 'Persona draft for review · Mira Finch', kind: 'image', date: 'Oct 10', to: '/documents?workspace=ux', icon: '/image0.svg' },
   ],
   myActionItems: [{ id: 'write-journey-map', title: 'Draft journey map for onboarding', meta: 'Due Oct 24', to: '/action-items' }],
   children: [],
@@ -275,7 +275,7 @@ const dev = fillWorkspace({
   discussions: [{ id: 'async-api-dev', title: 'Proposal: switch to async API pattern', meta: 'Updated Oct 21', group: 'this' }],
   updates: [
     { id: 'dev-sprint-update', title: 'Sprint planning', detail: 'Agenda and owners · Jane Doe', kind: 'meeting', date: 'Oct 21', to: '/meetings/dev-sprint', icon: '/calendar0.svg' },
-    { id: 'api-checklist', title: 'API checklist', detail: 'Release notes · Wren Maple', kind: 'doc', date: 'Oct 14', to: '/documents', icon: '/file2.svg' },
+    { id: 'api-checklist', title: 'API checklist', detail: 'Release notes · Wren Maple', kind: 'doc', date: 'Oct 14', to: '/documents?workspace=dev', icon: '/file2.svg' },
   ],
   myActionItems: [{ id: 'fix-scribe-stream', title: 'Stabilize live transcript stream', meta: 'Due Oct 29', to: '/action-items' }],
   children: [],
@@ -305,7 +305,7 @@ const branding = fillWorkspace({
   actionItems: [{ id: 'icon-pass', title: 'Align sidebar icons with the kit', meta: 'Due Nov 4', group: 'this' }],
   discussions: [{ id: 'wordmark', title: 'Weaver Scribe wordmark', meta: '4 comments', group: 'this' }],
   updates: [
-    { id: 'logo-kit', title: 'Logo kit', detail: 'Marks and clear space · Jules Reed', kind: 'image', date: 'Oct 7', to: '/documents', icon: '/image0.svg' },
+    { id: 'logo-kit', title: 'Logo kit', detail: 'Marks and clear space · Jules Reed', kind: 'image', date: 'Oct 7', to: '/documents?workspace=branding', icon: '/image0.svg' },
     { id: 'wordmark-update', title: 'Weaver Scribe wordmark', detail: 'Feedback on the pill mark · Ivy Wisp', kind: 'discussion', date: 'Today', to: '/discussions', icon: '/msg0.svg' },
   ],
   myActionItems: [{ id: 'icon-pass', title: 'Align sidebar icons with the kit', meta: 'Due Nov 4', to: '/action-items' }],
@@ -336,7 +336,7 @@ const marketing = fillWorkspace({
   actionItems: [{ id: 'publish-brief', title: 'Publish the fall launch brief', meta: 'Due Nov 1', group: 'this' }],
   discussions: [{ id: 'tone-guide', title: 'Tone of voice for Ask Weaver', meta: 'Updated Oct 18', group: 'this' }],
   updates: [
-    { id: 'launch-brief', title: 'Launch brief', detail: 'Fall campaign · Casey Drift', kind: 'doc', date: 'Oct 13', to: '/documents', icon: '/file2.svg' },
+    { id: 'launch-brief', title: 'Launch brief', detail: 'Fall campaign · Casey Drift', kind: 'doc', date: 'Oct 13', to: '/documents?workspace=marketing', icon: '/file2.svg' },
     { id: 'tone-guide-update', title: 'Tone of voice for Ask Weaver', detail: 'Copy thread · Dana Frost', kind: 'discussion', date: 'Oct 18', to: '/discussions', icon: '/msg0.svg' },
   ],
   myActionItems: [{ id: 'publish-brief', title: 'Publish the fall launch brief', meta: 'Due Nov 1', to: '/action-items' }],
@@ -368,7 +368,7 @@ const logistics = fillWorkspace({
   discussions: [{ id: 'hybrid-setup', title: 'Hybrid meeting kit', meta: '2 comments', group: 'this' }],
   updates: [
     { id: 'ops-huddle-update', title: 'Ops huddle', detail: 'Agenda, rooms and owners · Morgan Moss', kind: 'meeting', date: 'Oct 16', to: '/meetings/ops-huddle', icon: '/calendar0.svg' },
-    { id: 'venue-checklist', title: 'Venue checklist', detail: 'Fall meetup · Morgan Moss', kind: 'doc', date: 'Oct 15', to: '/documents', icon: '/file2.svg' },
+    { id: 'venue-checklist', title: 'Venue checklist', detail: 'Fall meetup · Morgan Moss', kind: 'doc', date: 'Oct 15', to: '/documents?workspace=logistics', icon: '/file2.svg' },
   ],
   myActionItems: [{ id: 'book-room', title: 'Book the Nov all-hands room', meta: 'Due Oct 31', to: '/action-items' }],
   children: [],
@@ -404,6 +404,14 @@ export function workspaceFromPath(pathname: string): WorkspaceDemo {
     return workspaces.logistics
   }
   return workspaces.ux
+}
+
+export function workspaceFromLocation(pathname: string, search: string): WorkspaceDemo {
+  const requested = new URLSearchParams(search).get('workspace')
+  if (requested) {
+    return workspaces[normalizeWorkspaceId(requested)]
+  }
+  return workspaceFromPath(pathname)
 }
 
 export function normalizeWorkspaceId(id: string | null | undefined): WorkspaceId {

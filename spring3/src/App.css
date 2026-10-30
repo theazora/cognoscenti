@@ -3304,3 +3304,608 @@ a.header-search-toggle {
     min-width: 640px;
   }
 }
+
+/* Documents */
+.doc-library {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 28px;
+}
+
+.doc-library-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.count-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--accent-bg);
+  color: var(--text-h);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.doc-drop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px dashed #d0d0d0;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.doc-drop.is-dragging {
+  border-color: var(--text-h);
+  background: #f3f3f3;
+}
+
+.doc-drop p {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.doc-drop p button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-h);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.doc-drop-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.doc-library .docs-secondary,
+.doc-modal .docs-secondary {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--text-h);
+}
+
+.doc-library .docs-primary,
+.doc-modal .docs-primary {
+  background: #2a2a2a;
+  border-color: transparent;
+  color: #fff;
+}
+
+.doc-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.doc-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.doc-filters button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text-h);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.doc-filters button span {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.doc-filters button.is-selected {
+  background: #2a2a2a;
+  border-color: #2a2a2a;
+  color: #fff;
+}
+
+.doc-filters button.is-selected span {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.doc-search,
+.docs-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.doc-search {
+  flex: 1;
+  min-width: 180px;
+  max-width: 280px;
+}
+
+.doc-search input,
+.docs-select select {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text-h);
+  font: inherit;
+}
+
+.doc-search input:focus,
+.docs-select select:focus {
+  outline: none;
+}
+
+.docs-select select {
+  cursor: pointer;
+}
+
+.docs-table-card {
+  padding: 8px 8px 12px;
+}
+
+.docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.docs-table th {
+  padding: 10px 12px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.docs-table td {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.docs-table tr.is-highlighted td {
+  background: #f6f6f6;
+}
+
+.doc-name,
+.doc-owner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-h);
+}
+
+.doc-name {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.doc-name strong,
+.doc-file-chip strong,
+.doc-link-detected strong,
+.doc-toast strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.doc-name span span,
+.doc-owner,
+.docs-table td,
+.field-hint,
+.doc-preview-meta {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.doc-owner .person-avatar {
+  border: 0;
+  width: 26px;
+  height: 26px;
+}
+
+.doc-row-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+}
+
+.docs-open,
+.docs-more {
+  height: 32px;
+  min-height: 32px;
+}
+
+.docs-more {
+  width: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-h);
+  font-size: 18px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.docs-more:hover {
+  background: var(--accent-bg);
+}
+
+.docs-empty {
+  padding: 28px 12px;
+  color: var(--text);
+  text-align: center;
+}
+
+.docs-footnote {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 12px 0;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.docs-footnote button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-h);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.doc-modal {
+  width: min(760px, calc(100vw - 32px));
+  max-height: calc(100svh - 48px);
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  overflow-x: hidden;
+}
+
+.doc-modal .field,
+.doc-modal-grid,
+.doc-modal-fields {
+  min-width: 0;
+}
+
+.doc-modal::backdrop {
+  background: rgba(20, 20, 20, 0.45);
+}
+
+.doc-preview {
+  width: min(480px, calc(100vw - 32px));
+}
+
+.doc-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 22px 18px;
+}
+
+.doc-modal-head,
+.doc-modal-foot,
+.doc-modal-actions,
+.doc-link-detected,
+.doc-file-chip,
+.doc-toast {
+  display: flex;
+  align-items: center;
+}
+
+.doc-modal-head {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.doc-modal-head h2 {
+  font-size: 20px;
+  letter-spacing: -0.4px;
+}
+
+.doc-modal-head p,
+.doc-preview-meta {
+  margin-top: 2px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.doc-close {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-h);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.doc-close:hover,
+.doc-toast button:hover {
+  background: var(--accent-bg);
+}
+
+.doc-tabs {
+  display: inline-flex;
+  gap: 4px;
+  width: fit-content;
+  padding: 4px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+}
+
+.doc-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.doc-tabs button[aria-selected='true'] {
+  background: #fff;
+  color: var(--text-h);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.doc-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.doc-modal-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field-hint {
+  font-weight: 400;
+}
+
+.doc-file-drop,
+.doc-file-chip,
+.doc-link-detected {
+  gap: 10px;
+  padding: 12px;
+  border: 1px dashed #d0d0d0;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.doc-file-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 118px;
+  color: var(--text-h);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.doc-file-drop span,
+.doc-file-chip span span,
+.doc-link-detected span span {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.doc-file-chip {
+  border-style: solid;
+}
+
+.doc-file-chip > span,
+.doc-link-detected > span,
+.doc-toast > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.doc-file-chip button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-h);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.doc-progress {
+  display: block;
+  height: 4px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: #e6e6e6;
+  overflow: hidden;
+}
+
+.doc-progress span {
+  display: block;
+  height: 100%;
+  background: #2a2a2a;
+}
+
+.doc-link-detected {
+  border-style: solid;
+}
+
+.doc-link-detected > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #ececec;
+  color: var(--text-h);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.doc-notify {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-h);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.doc-modal-foot {
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.doc-modal-actions {
+  gap: 8px;
+  margin-left: auto;
+}
+
+.doc-open-link {
+  width: fit-content;
+  text-decoration: none;
+}
+
+.doc-toast {
+  position: fixed;
+  top: 72px;
+  right: 20px;
+  z-index: 70;
+  gap: 12px;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 12px 12px 12px 14px;
+  border-radius: 12px;
+  background: #2a2a2a;
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.doc-toast strong {
+  color: #fff;
+  font-size: 14px;
+}
+
+.doc-toast > span {
+  flex: 0 1 auto;
+  min-width: max-content;
+  white-space: nowrap;
+}
+
+.doc-toast > span span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.doc-toast-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  color: #2a2a2a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.doc-toast button {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  .doc-drop,
+  .doc-modal-grid {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .doc-modal-grid {
+    display: flex;
+  }
+
+  .doc-drop-actions,
+  .doc-search {
+    max-width: none;
+  }
+
+  .docs-open,
+  .docs-more,
+  .doc-filters button,
+  .doc-search,
+  .docs-select {
+    min-height: 44px;
+  }
+}

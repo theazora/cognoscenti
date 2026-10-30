@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { switcherTree, workspaceFromPath, type SwitcherEntry } from '../data/workspaces'
+import { documentsPath } from '../data/documents'
+import { switcherTree, workspaceFromLocation, type SwitcherEntry } from '../data/workspaces'
 import Menu from './Menu'
 
 const createItems = [
@@ -70,7 +71,7 @@ function navClassName(isActive: boolean) {
 
 function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarProps) {
   const location = useLocation()
-  const workspace = workspaceFromPath(location.pathname)
+  const workspace = workspaceFromLocation(location.pathname, location.search)
   const tree = switcherTree(workspace)
   const [switcherOpen, setSwitcherOpen] = useState(false)
 
@@ -120,7 +121,13 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
             <Link
               key={item.label}
               className="create-option"
-              to={item.label === 'Meeting' ? `/meetings/new?workspace=${workspace.id}` : item.to}
+              to={
+                item.label === 'Meeting'
+                  ? `/meetings/new?workspace=${workspace.id}`
+                  : item.label === 'Document'
+                    ? documentsPath(workspace.id, 'file')
+                    : item.to
+              }
               role="menuitem"
               onClick={closeMenu}
             >
@@ -187,7 +194,10 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
         >
           <p className="section-label">Organization</p>
           {organizationLinks.map((item) => (
-            <NavRow key={item.label} item={item} />
+            <NavRow
+              key={item.label}
+              item={item.label === 'Documents' ? { ...item, to: documentsPath(workspace.id) } : item}
+            />
           ))}
         </nav>
       </div>
