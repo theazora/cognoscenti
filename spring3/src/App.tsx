@@ -1,5 +1,11 @@
 import { Outlet, Route, Routes } from 'react-router-dom'
 import WorkspaceLayout from './components/WorkspaceLayout'
+import AttendanceHistoryPage from './pages/AttendanceHistoryPage'
+import DocumentsPage from './pages/DocumentsPage'
+import MeetingRoomPage from './pages/MeetingRoomPage'
+import MeetingsIndexPage from './pages/MeetingsIndexPage'
+import MyMeetingsPage from './pages/MyMeetingsPage'
+import NewMeetingPage from './pages/NewMeetingPage'
 import PlaceholderPage from './pages/PlaceholderPage'
 import WorkspaceHome from './pages/WorkspaceHome'
 import './App.css'
@@ -16,29 +22,18 @@ function App() {
   return (
     <Routes>
       <Route element={<AppLayout />}>
-        <Route path="/" element={<WorkspaceHome workspaceId="department" />} />
-        <Route
-          path="/organization"
-          element={<WorkspaceHome workspaceId="organization" />}
-        />
-        <Route
-          path="/meetings"
-          element={
-            <PlaceholderPage
-              title="Meetings"
-              description="Agendas, attendance, and minutes for this workspace."
-            />
-          }
-        />
-        <Route
-          path="/meetings/:id"
-          element={
-            <PlaceholderPage
-              title="Meeting"
-              description="Open a meeting or view its agenda."
-            />
-          }
-        />
+        <Route path="/" element={<WorkspaceHome workspaceId="ux" />} />
+        <Route path="/ux" element={<WorkspaceHome workspaceId="ux" />} />
+        <Route path="/organization" element={<WorkspaceHome workspaceId="organization" />} />
+        <Route path="/dev" element={<WorkspaceHome workspaceId="dev" />} />
+        <Route path="/branding" element={<WorkspaceHome workspaceId="branding" />} />
+        <Route path="/marketing" element={<WorkspaceHome workspaceId="marketing" />} />
+        <Route path="/logistics" element={<WorkspaceHome workspaceId="logistics" />} />
+        <Route path="/meetings" element={<MyMeetingsPage />} />
+        <Route path="/meetings/new" element={<NewMeetingPage />} />
+        <Route path="/meetings/all" element={<MeetingsIndexPage />} />
+        <Route path="/meetings/attendance" element={<AttendanceHistoryPage />} />
+        <Route path="/meetings/:id" element={<MeetingRoomPage />} />
         <Route
           path="/discussions"
           element={
@@ -48,15 +43,7 @@ function App() {
             />
           }
         />
-        <Route
-          path="/documents"
-          element={
-            <PlaceholderPage
-              title="Documents"
-              description="Files attached to this workspace, including upload."
-            />
-          }
-        />
+        <Route path="/documents" element={<DocumentsPage />} />
         <Route
           path="/action-items"
           element={

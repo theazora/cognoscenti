@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { workspaceFromPath } from '../data/workspaces'
+import { documentsPath } from '../data/documents'
+import { switcherTree, workspaceFromLocation, type SwitcherEntry } from '../data/workspaces'
 import Menu from './Menu'
 
 const createItems = [
   {
-    to: '/meetings',
+    to: '/meetings/new',
     label: 'Meeting',
     detail: 'Schedule with agenda & Zoom link',
     icon: '/calendar0.svg',
@@ -59,7 +60,7 @@ const circleLinks: NavItem[] = [
 ]
 
 const organizationLinks: NavItem[] = [
-  { to: '/notifications', label: 'Notifications', icon: '/bell0.svg', invert: true, count: 35 },
+  { to: '/notifications', label: 'Notifications', icon: '/bell0.svg', count: 35 },
   { to: '/emails', label: 'Emails', icon: '/mail0.svg', count: 2 },
   { to: '/documents', label: 'Documents', icon: '/file0.svg' },
 ]
@@ -70,7 +71,8 @@ function navClassName(isActive: boolean) {
 
 function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarProps) {
   const location = useLocation()
-  const workspace = workspaceFromPath(location.pathname)
+  const workspace = workspaceFromLocation(location.pathname, location.search)
+  const tree = switcherTree(workspace)
   const [switcherOpen, setSwitcherOpen] = useState(false)
 
   function onSwitcherClick() {
@@ -119,7 +121,13 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
             <Link
               key={item.label}
               className="create-option"
-              to={item.to}
+              to={
+                item.label === 'Meeting'
+                  ? `/meetings/new?workspace=${workspace.id}`
+                  : item.label === 'Document'
+                    ? documentsPath(workspace.id, 'file')
+                    : item.to
+              }
               role="menuitem"
               onClick={closeMenu}
             >
@@ -163,40 +171,9 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
 
             {switcherOpen && !collapsed ? (
               <div className="workspace-children">
-                {workspace.id === 'department' ? (
-                  <Link className="workspace-child" to="/organization" onClick={closeMenu}>
-                    <span className="workspace-avatar sm" aria-hidden="true">
-                      OW
-                    </span>
-                    <span className="workspace-name">
-                      <strong>Organization Workspace</strong>
-                      <span>
-                        <img src="/users0.svg" alt="" width={12} height={12} />
-                        42 members
-                      </span>
-                    </span>
-                  </Link>
-                ) : null}
-                {workspace.children.map((child) => (
-                  <Link
-                    key={child.code}
-                    className="workspace-child"
-                    to={child.path}
-                    onClick={closeMenu}
-                  >
-                    <span className="workspace-avatar sm" aria-hidden="true">
-                      {child.code}
-                    </span>
-                    <span className="workspace-name">
-                      <strong>{child.name}</strong>
-                      {child.members > 0 ? (
-                        <span>
-                          <img src="/users0.svg" alt="" width={12} height={12} />
-                          {child.members} members
-                        </span>
-                      ) : null}
-                    </span>
-                  </Link>
+                <SwitcherRow entry={tree.parent} onClick={closeMenu} />
+                {tree.teams.map((entry) => (
+                  <SwitcherRow key={entry.code} entry={entry} onClick={closeMenu} />
                 ))}
                 <Link className="manage-workspaces" to="/workspaces" onClick={closeMenu}>
                   Manage Workspaces
@@ -217,7 +194,10 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
         >
           <p className="section-label">Organization</p>
           {organizationLinks.map((item) => (
-            <NavRow key={item.label} item={item} />
+            <NavRow
+              key={item.label}
+              item={item.label === 'Documents' ? { ...item, to: documentsPath(workspace.id) } : item}
+            />
           ))}
         </nav>
       </div>
@@ -227,6 +207,36 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
         <img className="ask-weaver-mark" src="/ask-weaver-mark.svg" alt="" width={40} height={40} />
       </Link>
     </aside>
+  )
+}
+
+function SwitcherRow({
+  entry,
+  onClick,
+}: {
+  entry: SwitcherEntry
+  onClick: () => void
+}) {
+  return (
+    <Link
+      className={`workspace-child is-${entry.kind}${entry.current ? ' is-current' : ''}`}
+      to={entry.path}
+      aria-current={entry.current ? 'page' : undefined}
+      onClick={onClick}
+    >
+      <span className="workspace-avatar sm" aria-hidden="true">
+        {entry.code}
+      </span>
+      <span className="workspace-name">
+        <strong>{entry.name}</strong>
+        {entry.members > 0 ? (
+          <span>
+            <img src="/users0.svg" alt="" width={12} height={12} />
+            {entry.members} members
+          </span>
+        ) : null}
+      </span>
+    </Link>
   )
 }
 
