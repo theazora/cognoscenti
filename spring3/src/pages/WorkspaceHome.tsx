@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import type { HierarchyRow, Person, RecentUpdate, UpdateKind, WorkspaceId } from '../data/workspaces'
+import { documentsPath, useDocumentCount } from '../data/documents'
 import { workspaces } from '../data/workspaces'
 
 type UpdateTab = 'all' | 'meetings' | 'files' | 'discussions'
@@ -24,6 +25,7 @@ const AVATAR_TONES = ['#5a5a5a', '#6e6e6e', '#4a4a4a', '#7a7a7a', '#3d3d3d']
 
 function WorkspaceHome({ workspaceId }: WorkspaceHomeProps) {
   const workspace = workspaces[workspaceId]
+  const documentTotal = useDocumentCount(workspaceId)
   const [updateTab, setUpdateTab] = useState<UpdateTab>('all')
   const [watching, setWatching] = useState(true)
   const [copied, setCopied] = useState(false)
@@ -257,12 +259,12 @@ function WorkspaceHome({ workspaceId }: WorkspaceHomeProps) {
                 </Link>
               </li>
               <li>
-                <Link className="glance-link" to="/documents">
+                <Link className="glance-link" to={documentsPath(workspaceId)}>
                   <span className="icon-tile">
                     <img src="/file1.svg" alt="" width={18} height={18} />
                   </span>
                   <span className="glance-copy">
-                    <strong>{workspace.documentCount}</strong>
+                    <strong>{documentTotal}</strong>
                     <span>Documents</span>
                   </span>
                 </Link>

@@ -1,6 +1,8 @@
 import { useRef } from 'react'
 import type { FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { documentsPath } from '../data/documents'
+import { workspaceFromLocation } from '../data/workspaces'
 
 const homeLinks = [
   { to: '/workspaces', label: 'Workspaces' },
@@ -23,6 +25,8 @@ const adminLinks = [
 
 function Footer() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const workspace = workspaceFromLocation(location.pathname, location.search)
   const inputRef = useRef<HTMLInputElement>(null)
 
   function onSearch(event: FormEvent<HTMLFormElement>) {
@@ -55,7 +59,12 @@ function Footer() {
 
       <div className="footer-columns">
         <FooterColumn title="Home" links={homeLinks} />
-        <FooterColumn title="Organization" links={organizationLinks} />
+        <FooterColumn
+          title="Organization"
+          links={organizationLinks.map((link) =>
+            link.label === 'Documents' ? { ...link, to: documentsPath(workspace.id) } : link,
+          )}
+        />
         <FooterColumn title="Administration" links={adminLinks} />
       </div>
 
