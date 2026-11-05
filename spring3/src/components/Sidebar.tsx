@@ -87,10 +87,10 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
   return (
     <aside className={`sidebar${menuOpen ? ' sidebar-open' : ''}`}>
       <div className="sidebar-top">
-        <div className="sidebar-user">
+        <Link className="sidebar-user" to="/profile">
           <strong>Users Name</strong>
           <span>Steward</span>
-        </div>
+        </Link>
         <button
           className="collapse-sidebar"
           type="button"

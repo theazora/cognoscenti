@@ -8,6 +8,7 @@ import MeetingsIndexPage from './pages/MeetingsIndexPage'
 import MyMeetingsPage from './pages/MyMeetingsPage'
 import NewMeetingPage from './pages/NewMeetingPage'
 import PlaceholderPage from './pages/PlaceholderPage'
+import ProfilePage from './pages/ProfilePage'
 import WorkspaceHome from './pages/WorkspaceHome'
 import './App.css'
 
@@ -55,15 +56,9 @@ function App() {
             />
           }
         />
-        <Route
-          path="/members"
-          element={
-            <PlaceholderPage
-              title="Members"
-              description="Who is in this workspace, and invitations."
-            />
-          }
-        />
+        <Route path="/members" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/:slug" element={<ProfilePage />} />
         <Route
           path="/workspaces"
           element={

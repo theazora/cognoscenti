@@ -86,6 +86,9 @@ function Header({ menuOpen, setMenuOpen }: HeaderProps) {
             </>
           }
         >
+          <Link to="/profile" role="menuitem">
+            Profile
+          </Link>
           <Link to="/settings" role="menuitem">
             Settings
           </Link>
