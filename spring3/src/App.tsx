@@ -7,8 +7,11 @@ import MeetingRoomPage from './pages/MeetingRoomPage'
 import MeetingsIndexPage from './pages/MeetingsIndexPage'
 import MyMeetingsPage from './pages/MyMeetingsPage'
 import NewMeetingPage from './pages/NewMeetingPage'
+import NotificationsPage from './pages/NotificationsPage'
 import PlaceholderPage from './pages/PlaceholderPage'
+import ProfileDirectoryPage from './pages/ProfileDirectoryPage'
 import ProfilePage from './pages/ProfilePage'
+import SearchPage from './pages/SearchPage'
 import WorkspaceHome from './pages/WorkspaceHome'
 import './App.css'
 
@@ -56,8 +59,8 @@ function App() {
             />
           }
         />
-        <Route path="/members" element={<ProfilePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/members" element={<ProfileDirectoryPage />} />
+        <Route path="/profile" element={<ProfileDirectoryPage />} />
         <Route path="/profile/:slug" element={<ProfilePage />} />
         <Route
           path="/workspaces"
@@ -95,15 +98,7 @@ function App() {
             />
           }
         />
-        <Route
-          path="/notifications"
-          element={
-            <PlaceholderPage
-              title="Notifications"
-              description="Updates from workspaces you are watching."
-            />
-          }
-        />
+        <Route path="/notifications" element={<NotificationsPage />} />
         <Route
           path="/emails"
           element={
@@ -131,15 +126,7 @@ function App() {
             />
           }
         />
-        <Route
-          path="/search"
-          element={
-            <PlaceholderPage
-              title="Search"
-              description="Find topics, meetings, and documents."
-            />
-          }
-        />
+        <Route path="/search" element={<SearchPage />} />
         <Route
           path="/about"
           element={

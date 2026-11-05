@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type { Dispatch, FormEvent, SetStateAction } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { profilePath } from '../data/profiles'
 import Menu from './Menu'
 
 type HeaderProps = {
@@ -86,7 +87,7 @@ function Header({ menuOpen, setMenuOpen }: HeaderProps) {
             </>
           }
         >
-          <Link to="/profile" role="menuitem">
+          <Link to={profilePath('Users Name')} role="menuitem">
             Profile
           </Link>
           <Link to="/settings" role="menuitem">
