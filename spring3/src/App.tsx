@@ -7,7 +7,12 @@ import MeetingRoomPage from './pages/MeetingRoomPage'
 import MeetingsIndexPage from './pages/MeetingsIndexPage'
 import MyMeetingsPage from './pages/MyMeetingsPage'
 import NewMeetingPage from './pages/NewMeetingPage'
+import AskWeaverPage from './pages/AskWeaverPage'
+import NotificationsPage from './pages/NotificationsPage'
 import PlaceholderPage from './pages/PlaceholderPage'
+import ProfileDirectoryPage from './pages/ProfileDirectoryPage'
+import ProfilePage from './pages/ProfilePage'
+import SearchPage from './pages/SearchPage'
 import WorkspaceHome from './pages/WorkspaceHome'
 import './App.css'
 
@@ -55,15 +60,9 @@ function App() {
             />
           }
         />
-        <Route
-          path="/members"
-          element={
-            <PlaceholderPage
-              title="Members"
-              description="Who is in this workspace, and invitations."
-            />
-          }
-        />
+        <Route path="/members" element={<ProfileDirectoryPage />} />
+        <Route path="/profile" element={<ProfileDirectoryPage />} />
+        <Route path="/profile/:slug" element={<ProfilePage />} />
         <Route
           path="/workspaces"
           element={
@@ -100,15 +99,7 @@ function App() {
             />
           }
         />
-        <Route
-          path="/notifications"
-          element={
-            <PlaceholderPage
-              title="Notifications"
-              description="Updates from workspaces you are watching."
-            />
-          }
-        />
+        <Route path="/notifications" element={<NotificationsPage />} />
         <Route
           path="/emails"
           element={
@@ -118,15 +109,7 @@ function App() {
             />
           }
         />
-        <Route
-          path="/ask"
-          element={
-            <PlaceholderPage
-              title="Ask Weaver"
-              description="Ask Weaver about this workspace."
-            />
-          }
-        />
+        <Route path="/ask" element={<AskWeaverPage />} />
         <Route
           path="/settings"
           element={
@@ -136,15 +119,7 @@ function App() {
             />
           }
         />
-        <Route
-          path="/search"
-          element={
-            <PlaceholderPage
-              title="Search"
-              description="Find topics, meetings, and documents."
-            />
-          }
-        />
+        <Route path="/search" element={<SearchPage />} />
         <Route
           path="/about"
           element={
