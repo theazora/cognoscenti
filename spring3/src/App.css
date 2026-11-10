@@ -106,6 +106,10 @@
   font-size: 12px;
 }
 
+.mobile-theme-selector {
+  display: none;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -436,7 +440,9 @@
 }
 
 .create-menu .menu-panel {
-  min-width: 280px;
+  left: 0;
+  right: auto;
+  min-width: 240px;
   padding: 12px 8px 8px;
   border-radius: 16px;
 }
@@ -1898,7 +1904,7 @@ a.header-search-toggle {
 .menu-panel {
   position: absolute;
   top: calc(100% + 4px);
-  left: 0;
+  right: 0;
   z-index: 30;
   min-width: 100%;
   padding: 6px;
@@ -2042,6 +2048,26 @@ a.header-search-toggle {
   outline-color: var(--accent);
 }
 
+/* Agenda editing fields */
+.agenda-rail .agenda-card {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.agenda-rail .agenda-card input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.agenda-rail .agenda-card label {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+
 /* --------------------------------------------------------------------------
    Viewports
    mobile   < 768px   hamburger left, search icon right, stacked page
@@ -2059,6 +2085,49 @@ a.header-search-toggle {
     width: min(280px, 86vw);
     height: calc(100svh - var(--header-h));
     box-shadow: 0 12px 32px rgba(35, 51, 50, 0.16);
+  }
+
+  .mobile-theme-selector {
+    display: block;
+    padding: 12px 16px;
+  }
+
+  .appearance-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .mobile-theme-options {
+    display: grid;
+    gap: 6px;
+    padding: 8px 0;
+  }
+
+  .mobile-theme-options button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .mobile-theme-options button.is-selected {
+    border-color: var(--accent);
+    font-weight: 600;
   }
 
   .nav-backdrop {
@@ -4817,7 +4886,7 @@ a.person-avatar.overflow {
   width: 100%;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: #fff;
+  background: var(--surface);
   color: var(--text-h);
   font: inherit;
   font-weight: 400;
