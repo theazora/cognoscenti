@@ -1,0 +1,121 @@
+
+<html>
+<body>
+
+<div class="modal-header mt-2 bg-primary-subtle text-primary">
+  <h5 class="modal-title" id="docDetailsModalLabel">
+      Document Settings </h5></div>
+      <div class="modal-body">
+        <div class="container-fluid override">
+          <div class="card col-md-12 align-top">
+            <div class="card-body" >
+  <div ng-show="editMode=='details'">
+    <div class="row">
+      <div class="col-sm-12 col-md-6">
+        <div class="form-group my-2">
+            <label for="synopsis" class="h6">Name:</label>
+            <input ng-model="docInfo.name" class="form-control"     
+                placeholder="Enter name of the document"/>           
+        </div>
+        <div class="form-group my-2">
+            <label for="synopsis" class="h6">Description:</label>
+            <textarea ng-model="docInfo.description" class="form-control"  style="height:100px"  
+                placeholder="Enter description of the document"></textarea>          
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <div class="form-group my-2">
+            <label for="synopsis" class="h6">Type:</label> &nbsp;
+            <span ng-show="docInfo.attType=='FILE'">File: &nbsp;  
+                <span ng-hide="docInfo.deleted">{{docInfo.size|number}} bytes</span>
+                <span ng-show="docInfo.deleted" style="color:red">Deleted</span>
+            </span>
+            <span ng-show="docInfo.attType=='URL'">URL</span>
+        </div>
+        <div class="form-group my-2" ng-show="docInfo.attType=='URL'">
+            <input ng-model="docInfo.url" class="form-control"     
+                placeholder="Enter url of the link"/>           
+        </div>
+        <div class="form-group mb-3">
+          <label for="labels" class="h6">Labels:</label>
+          <span class="nav-item dropdown d-inline mb-0">
+            <button class="btn btn-tiny btn-comment p-0 ">
+              <i class="fa fa-plus"></i></button>         
+                <ul class="dropdown-menu mt-0 p-2" role="menu" aria-labelledby="selectLabel" 
+              style="width:320px;left:-130px;top:20px">
+                <li class="mb-0" role="presentation" ng-repeat="rolex in allLabels" style="float:left">
+                <button role="menuitem" tabindex="0" ng-click="toggleLabel(rolex)" class="btn btn-wide labelButton" 
+                ng-hide="hasLabel(rolex.name)" style="background-color:{{rolex.color}}" ng-style="{ color: getContrastColor(rolex.color) }">
+                    {{rolex.name}}</button>
+            </li>
+            <div class="dropdown-divider" style="float:clear"></div>               
+            <li role="presentation" style="float:right">
+              <button role="menuitem" ng-click="openEditLabelsModal()" class="labelButtonAdd btn btn-wide btn-comment">
+                  Add/Remove Labels</button>
+            </li>
+          </ul>
+        </span>
+  
+     <span class="dropdown" ng-repeat="role in allLabels">
+       <button class="dropdown btn btn-wide labelButton mb-0" ng-click="toggleLabel(role)"
+          style="background-color:{{role.color}};" ng-style="{ color: getContrastColor(role.color) }" 
+          ng-show="hasLabel(role.name)">{{role.name}} <i class="fa fa-close"></i></button>
+     </span>
+        </div>
+        <div class="form-group my-2">
+            <label for="synopsis" class="h6">Who:</label> &nbsp;
+            {{docInfo.modifieduser}}
+        </div>
+        <div class="form-group my-2">
+            <label for="synopsis" class="h6">When:</label> &nbsp;
+            {{docInfo.modifiedtime|cdate}}
+        </div>
+        <div class="form-group my-2">
+            <label for="synopsis" class="h6">Public Access Link:</label> &nbsp;
+            <a href="{{wsUrl}}DocDetail.htm?aid={{docInfo.id}}&{{docInfo.magicNumber}}">{{docInfo.name}}</a>
+        </div>
+      </div>
+    <div class="col-12 row d-flex ms-0 my-3">
+        <label for="labels" class="h5 ps-0">Versions:</label>
+        <div class="container-fluid">
+          <div class="row d-flex">
+            <span class="col-1 h6">#</span>
+            <span class="col-2"> </span>
+            <span class="col-3 h6">Date</span>
+            <span class="col-3 h6 ms-auto" >Size</span>
+          </div>
+          <div class="col-12 row d-flex" ng-repeat="ver in docInfo.versions">
+            <span class="col-1">{{ver.num}}</span>
+            <span class="col-2"><a href="{{ver.link}}"><span class="fa fa-download"></span></a></span>
+            <span class="col-3">{{ver.date|cdate}}</span>
+            <span class="col-3 ms-auto" >{{ver.size|number}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row d-flex">
+      <div class="col-12">
+        <div class="form-group">
+            <label for="synopsis" class="h6 my-2">Purge Date:</label>
+            {{docInfo.purgeDate|cdate}}       
+        </div>
+        <div class="row d-flex justify-content-between">
+            <button class="btn btn-secondary btn-wide btn-raised" ng-click="setPurge(0)">
+                Keep Indefinitely</button>
+            <button class="btn-comment btn-wide btn-raised" ng-click="setPurge(30)">
+                Delete in 1 Month</button>
+            <button class="btn-comment btn-wide btn-raised" ng-click="setPurge(120)">
+                Delete in 4 Months</button>
+            <button class="btn-comment btn-wide btn-raised" ng-click="setPurge(360)">
+                Delete in 1 Year</button>
+        </div>
+      </div>
+  </div>
+</div></div>
+<div class="modal-footer d-flex">
+        <button class="btn btn-danger btn-default btn-raised me-auto"
+        type="button" ng-click="cancel()">Close</button>
+        <button class="btn btn-primary btn-default btn-raised"
+        type="button" ng-click="ok()">Save</button>
+
+</div>
+

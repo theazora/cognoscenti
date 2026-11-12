@@ -1,0 +1,79 @@
+<html>
+<style>
+{% include sharedStyles.css %}
+</style>
+<body>
+<div style="max-width:800px">
+<!--TEMPLATE FlatDetailAgenda.chtml-->
+
+<div class="emailbody" style="width:100%">
+<div class="h1" style="float:center">{$name|html}</div>
+<div style="float:center">{$startTime|date("MMM dd, YYYY -- HH:mm -- '(ttt)'")}</div>
+&nbsp;
+</div>
+<div>&nbsp;</div>
+
+<div>{$description|markdown}</div>
+
+<table class="niceTable">
+{% if ($prevMeet)}
+<tr>
+<td></td>
+<td><p>Previous Meeting: <b>{$prevMeet.name}</b> (
+  <a href="{$prevMeet.agendaUrl}">Agenda</a>,
+  <a href="{$prevMeet.minutesUrl}">Minutes</a>
+  ) {$prevMeet.startTime|date("MMM dd, YYYY")}
+</p></td>
+</tr>
+{% endif %}
+{% loop in $agenda as $agItem counter=$i,1 %}
+{% if ($agItem.isSpacer != true) %}
+{% if ($agItem.proposed != true) %}
+<tr class="agendaItem">
+<td><div class="h3">{$agItem.number}.</div></td>
+<td><div class="h3">{$agItem.subject|html}</div>
+     <i>({$agItem.duration} minutes)</i>
+     {% loop in $agItem.presenterList as $presenter %}
+     - {$presenter.name} &nbsp
+     {% onEmpty %}
+     {% endloop %}
+
+</td>
+<td style="width:150px"><br/>{$agItem.schedStart|date("HH:mm")} to {$agItem.schedEnd|date("HH:mm")}</td>
+</tr>
+
+<tr>
+  <td>
+  </td>
+  <td colspan="2">
+    <div>{$agItem.description|markdown}</div>
+    <ul>
+    {% loop in $agItem.attList as $doc %}
+    <li><a href="{$doc.url}">{$doc.name|html}</a></li>
+    {% onEmpty %}
+    {% endloop %}
+    </ul>
+    
+  </td>
+</tr>
+{% endif %}
+{% else %}
+<tr style="background-color:#888888;color:white">
+<td></td>
+<td>{$agItem.subject|html}</td>
+<td style="width:150px">{$agItem.schedStart|date("HH:mm")} to {$agItem.schedEnd|date("HH:mm")}</td>
+</tr>
+{% endif %}
+{% onEmpty %}
+No agenda items specified for this meeting
+{% endloop %}
+</table>
+<div class="emailbody"></div>
+
+</div>
+
+
+
+
+
+</body></html>

@@ -1,0 +1,130 @@
+
+<div class="modal-item pt-3"></div>
+<div class="modal-header bg-primary-subtle text-primary">
+  <h5 class="modal-title" id="attachDocumentLabel">
+    Attach/Remove Existing Documents
+  </h5>
+</div>
+<div class="instruction align-text-center text-weaverlight mx-auto fs-4 fw-bold mt-2">
+  To upload new file drag &amp; drop anywhere in the panel below
+</div>
+<div class="modal-body-scroll {{greenOnDrag()}}"  
+    ondragover="window.MY_SCOPE.dragIn(event)"
+    ondragleave="window.MY_SCOPE.dragOut(event)"
+    ondrop="window.MY_SCOPE.dragDrop(event)">
+    <div class="container gx-0">
+      <div class="row gx-0">
+        <div class="card col-md-6 align-top">
+          <span title="This is a list of the existing action items in the workspace that are available to be attached.">
+            <div class="card-header border-1 d-flex"> Available Documents: Filter &nbsp;&nbsp;<input type="text" ng-model="realDocumentFilter" style="max-width:40%;max-height: 25px;"> 
+            </div>
+          </span>
+        <div class="card-body">
+          <div class="row col-12 align-top">
+            <div ng-repeat="doc in filterDocs()" ng-click="addDocToItem(doc)" style="cursor:pointer" title="Click to add document to the list.">
+              <span class="col-4">
+                <img src="../../../assets/images/iconFile.png"/> {{doc.name|limitTo:40}} </span>
+                <span class="col-1">
+                    <button ng-hide="itemHasDoc(doc)"
+                        class="btn btn-tiny border-0" >&nbsp; <i class="fa fa-arrow-right"></i></button>
+                    <button  ng-show="itemHasDoc(doc)"
+                        class="btn btn-tiny border-0" title="Document is already added.">&nbsp; &nbsp;</button>
+                </span>
+            </div>
+            <div ng-show="filterDocs().length==0">
+                <span class="instruction">No documents to choose from.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card col-md-6 align-top">
+        <div class="card-header border-1"> Chosen Documents </div>
+        <div class="card-body">
+          <div class="row-col-12 align-top">
+            <div ng-repeat="doc in itemDocs()" ng-click="removeDocFromItem(doc)" 
+                title="Click to remove document from list." style="cursor:pointer">
+                <span class="col-4"> <img src="../../../assets/images/iconFile.png"/> {{doc.name|limitTo:40}} 
+                </span>
+                <span class="col-1">
+                    <button class="btn btn-tiny border-0"><i class="fa fa-close"></i> &nbsp;</button>
+                </span>
+            </div>
+            <div class="row" ng-show="itemDocs().length==0">
+                <span class="instruction">Nothing chosen to be attached.<br/><br/>
+                <span ng-show="filterDocs().length>0">Click on a document on the left, to add to the attachments listed here on the right.</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+        <div>
+            <div ng-repeat="fp in fileProgress" class="well mx-2" >
+              <div >
+                  <div class="ms-1 fw-bold">{{fp.file.name}}</div>
+                  <div class="me-auto">{{fp.status}}</div>
+              </div>
+              <div ng-hide="fp.done">
+                 How is this document related to this workspace?:<br/>
+                 <textarea ng-model="fp.description" class="form-control markDownEditor fullWidth"></textarea>
+              </div>
+              <div class="py-2" ng-hide="fp.done">
+                  <div class="text-align-center">{{fp.status}}:  {{fp.loaded|number}} of {{fp.file.size|number}} bytes</div>
+                  <div class="progress">
+                      <div class="progress-bar progress-bar-success" role="progressbar"
+                           aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+                           style="width:{{fp.percent}}%">
+                      </div>
+                  </div>
+              </div>
+              <div ng-hide="fp.done">
+                  <button ng-click="startUpload(fp)" class="btn btn-primary btn-wide">Upload</button>
+                  <button ng-click="cancelUpload(fp)" class="btn btn-primary btn-wide">Cancel</button>
+              </div>
+            </div>
+        </div>
+        <div ng-show="!fileProgress || fileProgress.length==0" 
+             style="width:100%;text-align:center">
+
+        </div>
+        <div class="header mt-2 bg-primary-subtle text-primary">
+          <h6 class="modal-title p-2" id="attachWebLinkLabel">New Web Link</h6></div>
+          <div class="modal-body">
+            <div class="container-fluid">
+                <div class="card col-md-12 align-top">
+                    <div class="card-body" >
+                        <div class="spaceyTable">
+                          <div class="row">
+                        <span class="col-2 gridTableColummHeader">URL:</span>
+                        <span class="col-10">
+                            <input type="text" ng-model="newLink.url" class="form-control"/>
+                        </span>
+                          </div>
+                          <div class="row my-1">
+                        <span class="col-2 gridTableColummHeader">Name: <span style="color:red">{{nameMessage()}}</span></span>
+                        <span class="col-10">
+                            <input type="text" ng-model="newLink.name" class="form-control"/>
+                        </span>
+                          </div>
+                          <div class="row my-1">
+                        <span class="col-2 gridTableColummHeader">Description:</span>
+                        <span class="col-10">
+                            <textarea ng-model="newLink.description" class="form-control"></textarea>
+                        </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+   
+
+<div class="modal-footer">
+  <button class="btn btn-danger me-auto" type="button" ng-click="cancel()">
+    Cancel</button>
+    <button ng-click="addLink()" class="btn btn-primary" ng-show="newLink.url && newLink.name">
+        Attach Link</button>
+        <button class="btn btn-primary"
+        type="button" ng-click="ok()">Save</button>
+</div>

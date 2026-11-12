@@ -1,0 +1,91 @@
+<html>
+<style>
+{% include sharedStyles.css %}
+</style>
+<body>
+<div >
+<!--TEMPLATE FullDetail.chtml-->
+<table class="table tablePortable">
+<tr style="background-color:lightskyblue">
+<td colspan="2"><h1>{$name|html}</h1></td>
+</tr>
+<tr>
+<td style="width:100px">Scheduled Time:</td><td>{$startTime|date("MMM dd, YYYY -- HH:mm")}</td>
+</tr>
+<tr>
+<td style="width:100px">Duration:</td><td>{$duration} Minutes</td>
+</tr>
+<tr>
+<td style="width:100px">Description:</td><td>{$description|markdown}</td>
+</tr>
+<tr>
+<td style="width:100px">Participants:</td>
+    <td>
+    {% loop in $participants as $part %}
+    <a href="FindPerson.htm?key={$part.key}">{$part.name}</a>{% divider %}<br/>{% enddivider %}
+    {% onEmpty %}
+    <i>(none specified)</i>
+    {% endloop %}
+    </td>
+</tr>
+<tr>
+<td style="width:100px">State:</td><td>{$state}</td>
+</tr>
+<tr>
+<td style="width:100px">Target Role:</td><td>{$targetRole}</td>
+</tr>
+
+</table>
+
+
+<table class="table">
+{% loop in $agenda as $aggie %}
+{% if ($aggie.isSpacer != true) %}
+<tr style="background-color:lightskyblue">
+<td><h3>{$aggie.number}.</h3></td>
+<td colspan="2"><h3>{$aggie.subject|html}</h3></li>
+{% else %}
+<tr style="background-color:#555;color:white;text-align:center">
+<td colspan="3" style="padding:25px;"><b>{$aggie.subject|html}</b> - {$aggie.duration} Minutes</li>
+{% endif %}
+
+</td>
+</tr>
+
+{% if ($aggie.isSpacer != true) %}
+    <tr>
+    <td></td>
+    <td>Time:</td>
+    <td>{$aggie.duration} Minutes</li>
+    </td>
+    </tr>
+
+    <tr>
+    <td></td>
+    <td colspan="2">{$aggie.description|markdown}</li>
+    </td>
+    </tr>
+
+
+    <tr>
+    <td></td>
+    <td>Presenters:</td>
+    <td>
+    {% loop in $aggie.presenters as $part %}
+        {$part}{% divider %}, {% enddivider %}
+    {% onEmpty %}
+        <i>(none specified)</i>
+    {% endloop %}
+    </td>
+    </tr>
+{% endif %}
+
+{% onEmpty %}
+<tr><td>No agenda items specified for this meeting</td></tr>
+{% endloop %}
+</table>
+
+</div>
+
+
+</body></html>

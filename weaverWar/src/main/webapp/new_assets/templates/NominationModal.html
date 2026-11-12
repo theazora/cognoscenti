@@ -1,0 +1,49 @@
+
+
+<div class="modal-item"></div>
+  <div class="modal-header bg-primary-subtle text-primary">
+    <h5 class="modal-title" id="attachDocumentLabel">
+    Nominate Someone for a Role Term
+    </h5>
+  </div>
+
+
+<div class="modal-body">
+  <div class="col-sm-12">
+    <div class="row form-group my-2">
+      <span class=" col-3">
+      <label for="status" class="h6">Nominator: (you)</label></span>
+      <span class="col-9">
+      <input class="form-control" ng-model="nom.owner"/>
+      </span>
+    </div>
+    <div class="row form-group my-2">
+      <span class=" col-3">
+        <label for="status" class="h6">Nominee:</label></span>
+        <span class="col-9">
+        <input class="form-control" ng-model="nom.nominee"/></span>
+    </div>
+    <div class="row form-group my-2">
+        <span class=" col-3">
+        <label for="status" class="h6">Reason:</label></span>
+        <span class="col-9">
+        <textarea class="form-control" ng-model="nom.comment"></textarea></span>
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <div class="guideVocal h6" >
+       Choose someone who you think would be a good fit for the role of 
+       {{parentScope.role.name}}.
+       <br/>
+       <br/>
+       Give a reason why you think this person would be a good
+       fit for the responsibilities involved.
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-footer d-flex">
+    <button ng-click="cancel()" class="btn btn-danger btn-raised me-auto">Cancel</button>
+    <button ng-click="saveAndClose()" class="btn btn-primary btn-raised">Save</button>
+</div>

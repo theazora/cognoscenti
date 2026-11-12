@@ -1,0 +1,23 @@
+<div class="modal-item pt-3 "></div>
+<div class="modal-header bg-primary-subtle text-primary override">
+  <h4 class="modal-title">Send Email</h4>
+</div>
+
+<div class="modal-body override ">
+        <div class="form-group form-inline h6">
+          <label >To:</label>
+          {{userInfo.name}}
+        </div>
+        <div class="form-group form-inline d-flex my-3">
+          <label class="h6 mt-2">Subject: &nbsp;</label>
+          <input ng-model="subject" class="form-control" style="width:400px"/>
+        </div>
+        <div class="form-group form-inline">
+    	  <div ui-tinymce="tinymceOptions" ng-model="message" 
+             class="leafContent" style="min-height:400px;margin:20px" id="theOnlyEditor"></div>
+        </div>
+    </div>
+<div class="modal-footer override">
+      <button ng-click="cancel()" class="btn btn-danger btn-raised btn-default me-auto" >Cancel</button>
+      <button ng-click="sendEmail()" class="btn btn-primary btn-raised btn-default" >Send Email</button>
+</div>

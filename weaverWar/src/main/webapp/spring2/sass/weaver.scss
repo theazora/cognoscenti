@@ -1,0 +1,1456 @@
+//Customizing styles for Weaver
+$primary: #39134C;
+$secondary: #672a79;
+$tertiary: #AB37C8;
+$quaternary: #954c9e;
+$danger: #610c0c;
+$success: #034603;
+$info: #0a0a0a;
+$warning: #d69e02;
+$light: #fefefe;
+$dark: #20082c;
+
+//Custom colors
+
+    $blue: #0563c7;
+    $red: #610c0c;
+    $green: #034603;
+    $yellow: #d19a02;
+    $gray: #6c666e;
+    $black: #07010a;
+    $white: #fefefe;
+    $purple: #672a79;
+    $pink: #c83798;
+    $orange: #bd6604;
+    $cyan: #0497d1;
+    $lightgreen: #8cca8c;
+    $darkgreen: #04330a;
+    $lightblue: #7dc7ff;
+    $darkblue: #020d6d;
+    $lightpurple: #ab37c8;
+    $darkpurple: #39134c;
+    $lightpink: #e293d5;
+    $darkpink: #8f028f;
+
+    
+
+// import the functions & variables
+@import "../node_modules/bootstrap/scss/_functions";
+@import "../node_modules/bootstrap/scss/_variables";
+
+
+$custom-weaver-colors: (
+    "weaverdark": #39134C,
+    "weaverlight": #AB37C8,
+    "weaverbody": #fefefe,
+    "weaverBtnlight": #EEEEEE,
+    "weaverBtnDark": #39134C,  
+    "weaverFrozen": #e2efff, 
+    "lightgreen": #90b990,
+    "blue": #0563c7,
+    "red": #610c0c,
+    "green": #034603,
+    "yellow": #f0c85a,
+    "gray": #6c666e,    
+    "black": #07010a,
+    "white": #fefefe,
+    "purple": #672a79,
+    "pink": #c83798,
+    "orange": #bd6604,
+    "cyan": #0497d1,
+    "darkgreen": #04330a,
+    "lightblue": #7dc7ff,
+    "darkblue": #020d6d,
+    "lightpurple": #ab37c8,
+    "darkpurple": #39134c,
+    "lightpink": #e293d5,
+    "darkpink": #8f028f,
+);
+
+
+
+    $primary-90: #4d2f5e;
+    $primary-80: #614570;
+    $primary-70: #755d82;
+    $primary-60: #887494;
+    $primary-50: #9f8fae;
+    $primary-40: #b0a2b7;
+    $primary-30: #c3b9c9;
+    $primary-20: #d7d1db;
+    $primary-10: #ebe7ed;     
+
+
+    $secondary-90: #774088;
+    $secondary-80: #865595;
+    $secondary-70: #966aa2;
+    $secondary-60: #a47faf;
+    $secondary-50: #b394bc;
+    $secondary-40: #c3aaca;
+    $secondary-30: #d1bfb7;
+    $secondary-20: #e1d4e4;
+    $secondary-10: #f0e9f1;     
+
+
+
+    $tertiary-90: #a05ea8;
+    $tertiary-80: #aa70b1;
+    $tertiary-70: #b582bb;
+    $tertiary-60: #bf94c5;
+    $tertiary-50: #caa5ce;
+    $tertiary-40: #d5b7d8;
+    $tertiary-30: #dfc9e2;
+    $tertiary-20: #eadbec;
+    $tertiary-10: #f4edf5;      
+
+
+
+$primary-100: tint-color($primary, 80%);
+$primary-200: tint-color($primary, 60%);
+$primary-300: tint-color($primary, 40%);
+$primary-400: tint-color($primary, 20%);
+$primary-500: $primary;
+$primary-600: shade-color($primary, 20%);
+$primary-700: shade-color($primary, 40%);
+$primary-800: shade-color($primary, 60%);
+$primary-900: shade-color($primary, 80%);
+
+$secondary-100: tint-color($secondary, 80%);
+$secondary-200: tint-color($secondary, 60%);
+$secondary-300: tint-color($secondary, 40%);
+$secondary-400: tint-color($secondary, 20%);
+$secondary-500: $secondary;
+$secondary-600: shade-color($secondary, 20%);
+$secondary-700: shade-color($secondary, 40%);
+$secondary-800: shade-color($secondary, 60%);
+$secondary-900: shade-color($secondary, 80%);
+
+
+
+$breadcrumb-divider: ("  >  ");
+$breadcrumb-divider-active: ("  >  ");
+$breadcrumb-divider-color: #AB37C8;
+$breadcrumb-item-color: #fefefe;
+$breadcrumb-font-size: .90rem;
+$breadcrumb-bg: transparent;
+$breadcrumb-margin-bottom: 0;
+$breadcrumb-padding-x: 1rem;
+$breadcrumb-padding-y: 0;
+$breadcrumb-item-padding-x: .5rem;
+$breadcrumb-item-color: #AB37C8;
+
+$body-bg: #fefefe;
+$body-color: #39134C;
+$link-color: $secondary;
+$text-decoration-color: #AB37C8;
+
+$sidebar-bg-color: #AB37C8;
+$sidebar-text-color: #fefefe;
+$sidebar-hover-bg-color: $secondary-50;
+$dropdown-margin-left: 0.1rem;
+
+$appbar: 0;
+
+h5, .h5 {
+    font-size: calc(1rem + .25vw);
+}
+h6, .h6 {
+    font-size: calc(.75rem + .5vw);
+}
+
+[ng\:cloak], 
+[ng-cloak], 
+[data-ng-cloak], 
+[x-ng-cloak], 
+.ng-cloak, 
+.x-ng-cloak {
+    display: none !important;
+  }
+
+a {
+    color: $link-color;
+    font-size: 1rem;
+    font-weight: 500;
+    &:hover {
+        color: inherit;
+}
+}
+
+.override .text-secondary-emphasis {
+    color: #672a79 !important;
+    font-weight: 600;
+    font-style: italic;
+}
+.guideVocal {
+    color: #672a79;
+    font-weight: 600;
+    font-style: normal;
+    font-size: medium;
+    line-height: 1.5;
+}
+
+.sidebar {
+    background-color: $tertiary;
+    padding-top: 1rem;
+
+    .nav-link {
+        color: $sidebar-text-color;
+
+    &:hover{
+        background-color: $sidebar-hover-bg-color;
+    }
+    
+    }
+    .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: 0;
+        margin-left: $dropdown-margin-left;
+    }
+
+    ul.dropdown-menu {
+        &:hover {
+           display: none !important;
+        }
+    }
+    ul.dropdown-menu.show {
+        display: block !important;
+    }
+}
+.user-dropdown-menu {
+    min-width: 160px;
+    margin-left: -100px;
+}
+.siteMsg {
+  clear:both;
+  width:auto;
+  border-radius: 5px;
+  color: $tertiary;
+  background-color: $tertiary-20;
+  border: 1px dashed $primary;
+  margin-top: 30px;
+  font-family:Arial, Helvetica, Verdana, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-style: italic;
+  margin: 15px 5px;
+  padding: 10px;
+}
+//learning path//
+.learningBox {
+    background-color: #DBEEF9;
+    border: 2px solid #360a47;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    .btn {
+        min-width: 150px;
+        max-width: fit-content;
+    }
+}
+.learningTitle {
+    font-size: 30px;
+    margin: 0px;
+    font-weight: 300;
+    color: skyblue;
+}
+.learningInfo {
+    margin: 20px;
+    float: left;
+}
+.learningVideo {
+    margin: 20px;
+    float: right;
+}
+.learningButton {
+    margin: 20px;
+    float: right;
+}
+.superAdminOnly {
+    background-color: lime;
+}
+.learningBtn {
+    min-width: 150px;
+    max-width: fit-content;
+    background-color: $primary-20;
+    color: $primary;
+    border: $primary, solid, 1px;
+    padding: 6px 12px;
+    font-size: 1rem;
+    font-weight: 400;
+    position: relative;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+
+    &:hover {
+        background-color: $primary-30;
+        color: $primary;
+        cursor: pointer;
+
+}
+}
+.override .offcanvas-header {
+    padding: .5rem 2rem;
+}
+.override .offcanvas-body  {
+    padding: .5rem 2rem;
+}
+.override .offcanvas.offcanvas-top {
+    height:fit-content;
+    
+}
+.override .offcanvas.offcanvas-end, .offcanvas.offcanvas-start{
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    margin-top: 0px;
+    margin-left: 0px;
+    padding: 0px;
+}
+
+.override .offcanvas.offcanvas-start{
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    margin-top: 0px;
+    margin-left: 0px;
+    padding: 0px;
+}
+//buttons//
+.override button  {
+    border-radius: 8px;
+    //border-color: $primary;
+}
+.override .btn  {
+    position: relative;
+    border-radius: 8px;
+    padding: 0.025rem .5rem;
+    font-weight: 500;
+    text-decoration: none;
+    &:hover {
+        cursor: pointer;
+    }
+}
+.override .btn-default {
+    width: 150px;
+}
+.override button.btn  {
+    position: relative;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    &:hover {
+        cursor: pointer;
+    }
+}
+.override a.btn  {
+    text-decoration: none;
+}
+.btn.ng-binding    {
+    background-color: $primary-10;
+}
+
+.override button.no-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    &:hover {
+        background: none;
+    }
+    
+}
+.override .no-btn.dropdown-toggle::after {
+    display: none;
+  }
+
+.override .btn-raised {
+
+    margin: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: #666 2px 2px 5px, inset 1px 2px 0 rgba(255, 255, 255, 0.15), 0 3px 3px rgba(0, 0, 0, 0.075);
+    &:hover {
+        box-shadow: inset 1px 2px 0 rgba(255, 255, 255, 0.15), 0 3px 3px rgba(0, 0, 0, 0.075), inset 0 0 100px rgba(255, 255, 255, 0.1);
+    }
+}
+.override .btn-primary {
+
+    background-color: $primary;
+    color: #fefefe;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 1px;
+    &:hover {
+        background-color: $primary-80;
+        color: #fefefe;
+        cursor: pointer;
+    }
+}
+
+.override .btn-secondary {
+
+    background-color: $secondary;
+    color: #fefefe;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 1px;
+    &:hover {
+        background-color: $secondary-80;
+        color: #fefefe;
+        cursor: pointer;
+    }
+}
+
+.override .btn-outline-primary {
+
+    color: $primary;
+    border-color: $primary;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 1px;
+    background-color: $primary-10;
+    &:hover {
+        background-color: $primary-80;
+        color: #fefefe;
+        cursor: pointer;
+    }
+}
+.override .btn-outline-secondary {
+
+    color: $secondary;
+    border-color: $secondary;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 1px;
+    background-color: $secondary-10;
+    &:hover {
+        background-color: $secondary-80;
+        color: $secondary-10;
+        cursor: pointer;
+    }
+}
+.override .btn-label-small {
+    min-width: min-content;
+    max-width: fit-content;
+    text-wrap: nowrap;
+    margin: 2px;
+    font-size: .75rem;
+    border: 1px solid $primary;
+    border-radius: 4px;
+}
+.override .btn-comment {
+    background-color: $primary-20;
+    color: $primary;
+    border: $primary, solid, 1px;
+    position: relative;
+    box-shadow: $primary-40 2px 2px 5px;
+    &:hover {
+        background-color: $primary-30;
+        color: $primary;
+        cursor: pointer;
+        border: $primary-60, solid, 1px;
+    }
+}
+
+.override .btn-success {
+    color: #fff;
+    background-color: #034603;
+    border-color        : #034603;
+    box-shadow           : inset 1px 2px 0 rgba(255, 255, 255, 0.15), 0 3px 3px rgba(0, 0, 0, 0.075), inset 0 0 100px rgba(255, 255, 255, 0.1); 
+
+&:hover {
+    color: #fff;
+    background-color: #034603;
+    box-shadow: inset 1px 2px 0 rgba(255, 255, 255, 0.15), 0 3px 3px rgba(0, 0, 0, 0.075), inset 0 0 100px rgba(255, 255, 255, 0.1);
+
+}
+}
+
+
+
+
+  .override .btn:active, .btn:first-child:active {
+    border: 0px;
+    border-image-width: 0px;
+}
+
+.override .btn-wide {
+    width: fit-content;
+    flex-grow: 2;
+}
+
+.override .btn-flex {
+    width: auto;
+    min-width: 75px;
+    max-width: 150px;
+    border-radius: 8px;
+    flex-grow: 1;
+    text-align: center;
+}
+.btn-sm {
+    width: fit-content;
+    max-width: 35px;
+    text-align: center;
+    vertical-align: middle;
+    flex-grow: 1;
+    border: #4d2f5e 1px solid;
+    border-radius: 8px;
+    &:hover {
+        background-color: $secondary-20;
+        color: $primary;
+        cursor: pointer;
+    }
+}
+
+.btn.btn-tiny {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    max-width: 30px;
+    padding: 0px;
+    border: solid 1px;
+    border-radius: 5px;
+    background-color: #fff;
+    &:hover {
+        background-color: $secondary-20;
+        color: $primary;
+        cursor: pointer;
+        border: solid 1px;
+        border-radius: 5px;
+    }
+}
+
+.override .btn-tiny {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    max-width: 30px;
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+.btn-startTime {
+    background-color: $green;
+    color: $primary-10;
+    border: $darkgreen, solid, 1px;
+    padding: 8px 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: #cccccc 2px 2px 5px;
+    min-width: 150px;
+    &:hover {
+        background-color: $green-100;
+        color: $green;
+        cursor: pointer;
+    }
+}
+
+.btn-endTime {
+    background-color: $red;
+    color: $primary-10;
+    border: $dark, solid, 1px;
+    padding: 8px 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: #cccccc 2px 2px 5px;
+    min-width: 150px;
+    &:hover {
+        background-color: $red-100;
+        color: $red;
+        cursor: pointer;
+    }
+}
+.btn.btn-comment-wide {
+    background-color: $primary-20;
+    color: $primary;
+    border: $primary, solid, 1px;
+    padding: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    position: relative;
+    border-radius: 10px;
+    width: fit-content;
+    box-shadow: #cccccc 2px 2px 5px;
+    &:hover {
+        background-color: $primary-30;
+        color: $primary;
+        cursor: pointer;
+        border: $primary-60, solid, 1px;
+    }
+}
+.btn.btn-short {
+    width: fit-content;
+    height: 30px;
+    max-height: fit-content;
+    border: $primary 1px solid;
+    border-radius: 10px;
+    position: unset;
+    padding: 3px;
+    font-size: .8rem;
+    font-weight: 500;
+    &:hover {
+        background-color: $secondary-20;
+        color: $primary;
+        cursor: pointer;
+    }
+}
+.override .button {
+    .btn {
+        background-color: inherit;
+    }
+    
+    .btn-small {
+        padding: 0.15rem 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.5;
+        border-radius: 8px;
+        border: $primary solid 3px;
+    }
+    
+}
+
+.second-menu {
+    margin-left: 12px;
+    padding-bottom: 12px;
+    display: inline;
+
+}
+.second-menu-btn a {
+    width: fit-content;
+    max-width: max-content;
+    background-color: $primary-10;
+    flex-grow: 1;
+    padding: 3px 8px;
+    border: $primary 1px solid;
+    border-radius: 8px;
+    box-shadow: #666 2px 2px 5px, inset 1px 2px 0 rgba(255, 255, 255, 0.15), 0 3px 3px rgba(0, 0, 0, 0.075);
+    &:hover {
+        box-shadow: inset 1px 2px 0 rgba(255, 255, 255, 0.15), 0 3px 3px rgba(0, 0, 0, 0.075), inset 0 0 100px rgba(255, 255, 255, 0.1);
+        background-color: $primary-20;
+        color: $primary;
+        border: $primary 1px solid;
+        cursor: pointer;
+    }
+}
+//labels//
+.override .labelButton {
+    overflow: hidden;
+    background-color: $primary;
+    //box-shadow: #cccccc 2px 2px 5px;
+    //border: $primary 1px solid;
+    border-radius: 8px;
+    margin: 5px;
+    &:hover {
+        background-color: $primary-80;
+        cursor: pointer;
+    }
+}
+
+.override .labelButtonAdd {
+    overflow: hidden;
+    box-shadow: #cccccc 2px 2px 5px;
+    margin: 5px;
+    border-radius: 8px;
+}
+
+.labelColumn {
+    padding: 5px;
+    overflow: hidden;
+    box-shadow: #cccccc 2px 2px 5px;
+    border: #4d2f5e 1px solid;
+    border-radius: 3px;
+    margin: 0px 10px 10px 0px;
+    background-color: #f5f5f5;
+    color: $secondary;
+    font-weight: 600 !important;
+
+    &:hover {
+        background-color: $secondary-20;
+        color: $primary;
+        cursor: pointer;
+    }
+}
+.labelCheck {
+    padding: 1px 4px;
+    color: $secondary;
+    font-size: calc(1rem - 1px);
+    font-weight: 600 !important;
+    background-color: transparent;
+    &:hover {
+        background-color: $secondary-20;
+        color: $primary;
+        cursor: pointer;
+    }
+}
+.labelText {
+    padding: 5px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+.labelRow {
+    background: linear-gradient(#EEE, white); 
+    margin: 10px;
+    padding: 25px 10px;
+    border-style:solid;
+    border-color:#FFF;
+    border-width:1px
+}
+.leafContent {
+    padding: 15px;
+    overflow: hidden;
+    border-radius: 3px;
+    margin: 0px 10px 10px 0px;
+    color: $secondary;
+    font-weight: 600;
+}
+//cards//
+
+.card {
+    background-color: $primary-20;
+    color: $body-color;
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .clipping {
+        overflow: hidden;
+        text-overflow: clip; 
+        border-bottom:1px solid #EEEEEE;
+        white-space: nowrap
+    }
+    .card-body {
+        a {
+            color: $link-color;
+        }
+
+        .spacytable tr td {
+        padding:2px;
+        }
+    }
+    .card-header    {
+        background-color: $primary-70;
+        color: $primary-10;
+
+        a {
+            color: $primary-10;
+        }
+    }
+}
+
+//navigation//
+
+.override .list-group {
+    width:fit-content;
+    max-width: max-content;
+    
+}
+.override #collapseInfoMenu {
+    max-width:fit-content;
+    position:absolute;
+    top: 175px;
+    left: 105px;
+    z-index: 1050;
+}
+
+#menuContainer.collapse.show .page-name {
+    margin-left:10px;
+    transition: margin-left 0.3s ease;
+}
+.override .list-group-item {
+    background-color: $primary-10;
+    color: $primary;
+    padding: 1px 8px ;
+    margin-bottom: 1px;
+    //margin: 6px 3px;
+    //border: $primary 1px solid;                                                       
+    //border-radius: 8px;
+    //box-shadow: #666 2px 2px 5px, inset 1px 2px 0 rgba(255, 255, 255, 0.15), 0 3px 3px rgba(0, 0, 0, 0.075);
+    &:hover {                                                                                                               
+        box-shadow: inset 1px 2px 0 rgba(255, 255, 255, 0.15), 0 3px 3px rgba(0, 0, 0, 0.075), inset 0 0 100px rgba(255, 255, 255, 0.1);
+        background-color: $primary-20;
+        color: $primary;                                                                                                                                                                                                            
+        border: $primary 1px solid;
+        cursor: pointer;
+    }
+}
+.override .list-group-item a {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.planning-mode {
+    color: #672978;
+    text-align: right;
+    position: relative;
+    font-weight: 700;
+
+    .planning-mode * {
+        box-sizing: border-box;
+    }
+}
+
+
+.blankTitle {
+    font-size: 130%;
+    font-weight: bold;
+}
+.agendaTitle {
+    font-size: 130%;
+    padding:5px;
+    cursor:pointer;
+    border: 3px solid white;
+    border-right: none;
+}
+.agendaTitleSelected {
+    font-size: 130%;
+    padding:5px;
+    border: 3px solid black;
+    border-right: none;
+    cursor:pointer;
+}
+.agendaTitle:hover {
+    font-size: 130%;
+    padding:5px;
+    cursor:pointer;
+    color:black;
+    background-color:skyblue;
+}
+.spaceyTable tr td {
+    vertical-align: top;
+}
+.spacydiv {
+    padding:5px;
+}
+.votingButton {
+    max-height: 26px;
+    padding:2px;
+    margin:0px;
+    font-size: 85%;
+}
+.buttonSpacerOff {
+    border: 5px solid white;
+    padding:5px;
+}
+.buttonSpacerOn {
+    border: 5px solid lightgrey;
+    padding:5px;
+}
+.leftColumn {
+    border-right: 1px solid #39134C;
+    padding: 0px 5px;
+    justify-content: center;
+}
+.col-fixed {
+    flex: 0 0 auto;
+    width: 250px !important;
+}
+.fixed-width {
+    width: 250px !important;
+}
+.fixed-width-sm {
+    width: 150px !important;
+}
+.contentColumn {
+    width:100%; 
+}
+
+
+.agendaItemFull {
+    border: 1px solid lightgrey;
+    border-radius:10px;
+    margin-top:20px;
+}
+.agendaItemBlank {
+    background-color:lightgray;
+    margin-top:20px;
+}
+.stoplight {
+    height: 20px;
+    width: 20px; 
+    margin:0px;    
+}
+
+
+
+
+
+.fixed-width-xs {
+    width: 30px !important;
+    
+}
+.specCaretBtn {
+    width: 25px;
+    height: 25px;
+    padding: 0px !important;
+    margin-left: 0px !important;
+    background-image: none;
+    border: 1px solid $secondary;
+    border-radius: 8px;
+    color: $secondary;
+    background-color: #fff;
+    &:hover {
+        background-color: $secondary-20;
+        color: $primary;
+        cursor: pointer;
+    }
+    .dropdown-toggle::after {
+        margin-left: 0px !important;
+    }
+}
+.specCaretBtn span {
+    margin: 0px;
+    padding: 0px;
+}
+.clickable:hover {
+    cursor:pointer;
+    background-color:#DDEEFF;
+
+}
+.clickable {
+    cursor:pointer;
+    padding: 3px 5px;
+}
+.custom-modal-window-top {
+    margin-top: 100px;
+}
+
+
+
+.accordion-button:not(.collapsed) { 
+    color:$primary !important; 
+    font-size: 1.2rem;
+    font-weight: 700;
+    background-color: $primary-50 !important;
+}
+.accordion-header {
+    color:$primary;
+    background-color: $primary-30;
+}
+.accordion-button {
+    color:$primary;
+    font-size: 1.1rem;
+    font-weight: 500;
+
+    a {
+        color:$primary;
+    }
+}
+.accordion-item .collapsed {
+    background-color: $primary-40;
+}
+
+.accordion-item.active .accordion-content {
+    display: block;
+}
+.accordionAssets {
+    .accordion-item .collapsed {
+        background-color: $primary-40;
+
+    }
+    .accordion-button:not(.collapsed) { 
+        color:$primary !important; 
+        font-size: 1rem;
+        font-weight: 500;
+        background-color: $primary-200 !important;
+    }
+}
+
+.well {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+
+
+.description-container {
+    display: inline-flex;
+    align-items: center;
+}
+.description-container h4 {
+    margin-right: 10px;
+}
+//From main.min.css
+
+.doubleClickHint {
+    background-color:transparent;
+    color:$primary-70;
+    font-style: italic;
+    padding:4px;
+    max-width:400px
+}
+
+
+@media (max-width: 768px) {
+    .btn-responsive {
+      padding:2px 4px;
+      font-size:80%;
+      line-height: 1;
+      height:fit-content;
+
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 992px) {
+    .btn-responsive {
+      padding:4px 9px;
+      font-size:90%;
+      line-height: 1.2;
+    }
+  }
+
+
+
+foreignObject {
+    font-size: .9rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: wrap;
+}
+.text-ellipsis {
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.label-dropdown-menu {
+    max-width: 380px;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-x: hidden;
+}
+.label-dropdown-item {
+    flex: 1 1 auto;
+    white-space: normal;
+    width: calc(50% - 1rem);
+}
+
+.comment-state-complete {
+    background-color: #eee;
+}
+.comment-state-active {
+    background-color: #cddacd;
+}
+.comment-state-draft {
+    background-color: #f1f1cb;
+}
+.comment-outer {
+    border: solid 1px;
+    border-radius: 8px;
+    margin-top: 5px;  
+    cursor: pointer;
+}
+.comment-inner {
+        padding: 2px;
+        border-radius: 8px;
+        border: $secondary-60 solid 1px;
+        background-color: white;
+    }
+.nicenice {
+        border: 2px dashed #bbb;
+        border-radius: 5px;
+        padding: 25px;
+        text-align: center;
+        font: 20pt bold Georgia,Tahoma,sans-serif;
+        color: #bbb;
+        margin-bottom: 20px;
+        width:500px;
+    }
+.decisionDate {
+    font-weight: bold;
+    color: #4d2f5e;
+    font-style: italic;
+}
+//from MeetingHtml.jsp
+
+.blankTitle {
+    font-size: 130%;
+    font-weight: bold;
+}
+.agendaTitle {
+    font-size: 130%;
+    padding:5px;
+    cursor:pointer;
+    border: 3px solid white;
+    border-right: none;
+}
+.agendaTitleSelected {
+    font-size: 130%;
+    padding:5px;
+    border: 3px solid black;
+    border-right: none;
+    cursor:pointer;
+}
+.agendaTitle:hover {
+    font-size: 130%;
+    padding:5px;
+    cursor:pointer;
+    color:black;
+    background-color:skyblue;
+}
+.spaceyTable tr td {
+    padding:5px;
+    margin: 5px;
+    border: none;
+    
+}
+.spacydiv {
+    padding:5px;
+}
+.buttonSpacerOff {
+    border: 5px solid white;
+    padding:5px;
+}
+.buttonSpacerOn {
+    border: 5px solid lightgrey;
+    padding:5px;
+}
+.form-control {
+    padding: 0;
+    margin: 0;
+    background-color: white !important;
+    border: grey solid 1px !important;
+}
+.form-control-sm {
+    padding: 0;
+    margin: 0;
+}
+.form-check-input   {
+    border-color: #20082c !important;
+    cursor: pointer;
+}
+.form-control-override {
+    background-color: $primary-10 !important;
+    padding: 3px 5px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    border: none !important;
+}
+
+.timers {
+    border: $secondary solid 1px;
+    min-width: 350px;
+    max-width: 415px;
+    border-radius: 10px;
+    background-color: $primary-10;
+    padding: 5px;
+    margin: 5px;
+    .btn {
+        color: inherit;
+        font-size: 1rem;
+        font-weight: 400;
+
+    }
+    .btn-sm {
+            background-color: inherit;
+            color: $primary;
+            font-size: 1rem;
+            border: $primary solid 1px;
+            border-radius: 5px;
+
+    }
+}
+
+.nav-link {
+    border: $secondary solid 1px;
+    border-radius: 3px;
+    background-color: $primary;
+    padding: 5px 10px;
+    margin-top: 10px;
+    margin-bottom:  0px;
+    color: $primary-10;
+    font-size: 1rem;
+    font-weight: 400;
+            
+    &:hover {
+        background-color: "weaverbody";
+        color: "weaverdark";
+        }
+}
+        
+.text-secondary {
+    color: $primary-60 !important;
+}
+
+.form-control {
+    .check  {
+    height: 25px;
+    width: 25px;
+}
+}
+
+.page-name{
+    font-size: 2rem;
+    font-weight: 700;
+    color: $secondary-70;
+    margin: .5em;
+}
+
+.timerStyleComplete {
+    color: $primary-60;
+    font-weight: 600;
+    font-size: .65rem;
+    margin-left: 3px;
+    margin-bottom: 0px;
+}
+
+.mainPageTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $secondary-70;
+    margin: 2em;
+}
+
+.modal {
+    position: fixed;
+    top: 1rem;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+}
+
+.modal-backdrop {
+    &:fade   {
+        opacity: 0.5;
+    } 
+}
+.modal-header {
+    border-bottom: $secondary solid 1px;
+    padding: 0;
+    
+}
+.modal-body-scroll {
+    max-height: 300px;
+    overflow-y:scroll;
+}
+
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    color: $primary;
+    background-clip: padding-box;
+    border: $secondary solid 1px;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 0.3rem;
+    opacity: 1;
+}
+.fade {  
+    &:not(.show) {
+      opacity: 1;
+    }
+  }
+.nav-item {
+    list-style-type: none;
+}
+.text-red-emphasis {
+    color: #b10303 !important;
+    font-style: italic;
+
+}
+
+//WMF Custom Styles
+
+body.mobile-body {
+    background: #39134C 0% 0% no-repeat padding-box;
+    min-height: 100%;
+}
+a {
+    text-decoration: underline;
+}
+.main-content {
+    min-height: 500px;
+    max-width: 100%;
+    margin: 0px 15px;
+    padding: 15px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 0px 0px 30px 30px;
+    opacity: 1;
+}
+.fullWidth {
+    width: 100%;
+}
+.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.big-weaver {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-bold) 90px/117px var(--unnamed-font-family-pt-sans);
+    color: var(--unnamed-color-662a79);
+    text-align: left;
+    font: normal normal bold 90px/117px PT Sans;
+    letter-spacing: 0px;
+    color: #662A79;
+    opacity: 1;
+}
+.topper {
+    text-align: left;
+    margin: 0px 10px 10px;
+    font: normal normal 600 28px/37px Segoe UI;
+    color: #672A79;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap
+}
+.instruction {
+    font: normal normal 600 1.25rem Segoe UI;
+    margin: 5px;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap
+}
+.infoBox {
+    text-align: center;
+    font: normal normal 600 20px Segoe UI;
+    margin: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap
+}
+.infoBoxSm {
+    text-align: center;
+    font: normal normal 600 14px Segoe UI;
+    margin: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap
+}
+
+.richTextBox {
+    border: 1px #662A79 solid;
+    background-color: white;
+    margin: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding:5px;
+    border-radius: 4px;
+}
+.listItemStyle {
+    font: normal normal 600 18px Segoe UI;
+    margin: 5px;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap
+}
+.subItemStyle {
+    font: normal normal 300 16px Segoe UI;
+    margin: 5px;
+    margin-left: 25px;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap
+}
+.grayBox {
+    width: 100%;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+.bigButton {
+    text-align: center;
+    display: block;
+    margin-top:30px;
+    padding:5px;
+    border-radius:20px;
+    border:1px solid lightskyblue;
+    margin-left: auto;
+    margin-right: auto;
+    font: normal normal 300 20px Segoe UI;
+}
+.notFinished {
+    display: block;
+    margin-top:30px;
+    font-style: italic;
+    padding:20px;
+    color:red;
+    margin-left: auto;
+    margin-right: auto;
+    font: normal italic 200 18px Segoe UI;
+}
+
+.smallButton {
+    text-align: center;
+    display: inline-block;
+    margin:10px;
+    padding:5px 10px;
+    border-radius:18px;
+    border:1px solid lightskyblue;
+    background-color: lightskyblue;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    font: normal normal 300 20px Segoe UI;
+    cursor: pointer;
+}
+.textEditor {
+    width:100%;
+    height:400px;
+}
+.numberColumn {
+    text-align: right;
+}
+//Comments, replys, etc
+.mainAboutObject {
+    background-color: #F0D7F7;
+    padding: 5px;
+}
+
+
+$vertical-align-classes: (
+        property: vertical-align,
+        class: align,
+        values: (
+            top: top,
+            middle: middle,
+            bottom: bottom
+        )
+    );
+
+$enable-gradients: true;
+$enable-shadows: false;
+$enable-rounded: false;
+$enable-grid-classes: true;
+
+
+
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-weaver-colors);
+
+
+
+//import bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
+

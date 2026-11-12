@@ -1,0 +1,12 @@
+<html>
+<body>
+{% include styles %}
+<p>Just the raw data for a site to help develop more templates.</p>
+
+
+<pre>
+{$debugDump|html}
+</pre>
+
+<div class="tm"></div>
+</body></html>

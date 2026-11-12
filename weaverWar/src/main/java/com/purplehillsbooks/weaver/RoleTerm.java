@@ -1,0 +1,162 @@
+/*
+ * Copyright 2013 Keith D Swenson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Contributors Include: Shamim Quader, Sameer Pradhan, Kumar Raja, Jim Farris,
+ * Sandia Yang, CY Chen, Rajiv Onat, Neal Wang, Dennis Tam, Shikha Srivastava,
+ * Anamika Chaudhari, Ajay Kakkar, Rajeev Rastogi
+ */
+
+package com.purplehillsbooks.weaver;
+
+import com.purplehillsbooks.json.JSONArray;
+import com.purplehillsbooks.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+/**
+ * A role may have many terms, and they will be played by different people each term. A term will
+ * have a specific start date, and end date. Some roles will not have terms, and they are perpetual
+ * meaning that the same person holds them forever. Old terms become a kind of history behind who
+ * has played the role in the past.
+ *
+ * <p>Terms have a complete cycle around selecting people to play a particular term of a particular
+ * role.
+ *
+ * <p>JSON Members:
+ *
+ * <p>key: this is an arbitrary (unique) key
+ *
+ * <p>state: Nominating, Proposing, Completed
+ *
+ * <p>termStart: TimeStamp for the beginning of the term
+ *
+ * <p>termEnd: TimeStamp for the end of the term
+ *
+ * <p>players: a list of people assigned to this term
+ *
+ * <p>nominations: a list of RoleNomination objects, key=owner
+ *
+ * <p>responses: a list of RoleNomResponse objects, key=owner
+ */
+public class RoleTerm extends DOMFace {
+
+    public RoleTerm(Document doc, Element ele, DOMFace p) {
+        super(doc, ele, p);
+    }
+
+    public String getKey() {
+        return getAttribute("key");
+    }
+
+    /** Note, this is the 'key', so don't change it if you have references elsewhere. */
+    public void setKey(String newKey) {
+        setAttribute("key", newKey);
+    }
+
+    public List<AddressListEntry> getDirectPlayers() {
+        ArrayList<AddressListEntry> playerList = new ArrayList<AddressListEntry>();
+        List<String> players = getVector("players");
+        for (String player : players) {
+            AddressListEntry ale = AddressListEntry.findOrCreate(player);
+            if (ale.isWellFormed()) {
+                playerList.add(ale);
+            }
+        }
+        return playerList;
+    }
+
+    public void addPlayer(AddressListEntry newMember) {
+        addVectorValue("players", newMember.getUniversalId());
+    }
+
+    public void removePlayer(AddressListEntry oldMember) {
+        String whichId = oldMember.getUniversalId();
+        UserProfile up = oldMember.getUserProfile();
+        List<Element> children = getNamedChildrenVector("players");
+        for (Element child : children) {
+            String childVal = DOMUtils.textValueOf(child, false);
+            if (childVal.equalsIgnoreCase(whichId)) {
+                fEle.removeChild(child);
+            } else if (up != null && up.hasAnyId(childVal)) {
+                fEle.removeChild(child);
+            }
+        }
+    }
+
+    public void removePlayerCompletely(UserRef user) {
+        List<String> oldPlayers = getVector("players");
+        List<String> newPlayers = new ArrayList<String>();
+        for (String memberID : oldPlayers) {
+            if (!user.hasAnyId(memberID)) {
+                newPlayers.add(memberID);
+            }
+        }
+        this.setVector("players", newPlayers);
+    }
+
+    public void clear() {
+        clearVector("players");
+    }
+
+    public boolean isComplete() {
+        String state = this.getAttribute("state");
+        return "Completed".equals(state);
+    }
+
+    public boolean includesDate(long testDate) {
+        long termStart = getAttributeLong("termStart");
+        long termEnd = getAttributeLong("termEnd");
+        return (testDate >= termStart && testDate < termEnd);
+    }
+
+    public JSONObject getJSON() {
+        JSONObject jObj = new JSONObject();
+        extractAttributeString(jObj, "key");
+        extractAttributeString(jObj, "state");
+        extractAttributeLong(jObj, "termStart");
+        extractAttributeLong(jObj, "termEnd");
+
+        JSONArray playerArray = new JSONArray();
+        List<String> players = getVector("players");
+        for (String player : players) {
+            AddressListEntry ale = AddressListEntry.findOrCreate(player);
+            if (ale.isWellFormed()) {
+                playerArray.put(ale.getJSON());
+            }
+        }
+        jObj.put("players", playerArray);
+
+        extractCollection(jObj, "nominations", RoleNomination.class);
+        extractCollection(jObj, "responses", RoleNomResponse.class);
+        return jObj;
+    }
+
+    public void updateFromJSON(JSONObject termInfo) {
+        updateAttributeString("state", termInfo);
+        updateAttributeLong("termStart", termInfo);
+        updateAttributeLong("termEnd", termInfo);
+
+        if (termInfo.has("players")) {
+            JSONArray playerArray = termInfo.getJSONArray("players");
+            List<String> players = AddressListEntry.uidListfromJSONArray(playerArray);
+            this.setVector("players", players);
+        }
+
+        updateCollection(termInfo, "nominations", RoleNomination.class, "owner");
+        updateCollection(termInfo, "responses", RoleNomResponse.class, "owner");
+    }
+}

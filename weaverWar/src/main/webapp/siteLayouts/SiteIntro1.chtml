@@ -1,0 +1,34 @@
+<html>
+<body>
+{% include styles %}
+<div class="emailbody">
+<!--TEMPLATE SiteIntro1.chtml-->
+<h1>Welcome to Weaver!</h1> 
+
+<p>Your site 
+'<b>{$site.names|get(0)}</b>'
+ is up and running.</p>
+
+<p>As a new Weaver site owner we suggest that you visit the 
+<a href="https://s06.circleweaver.com/TutorialList.html">Weaver training channel</a> 
+and review the training video 
+<a href="https://www.youtube.com/watch?v=sSJPN5XRFsY&list=PL-y45TQ2Eb40eQWwH5NjyIjgepk_MonlB&t=38s&index=2">Weaver for First Time User</a> 
+and the video 
+<a href="https://www.youtube.com/watch?v=QoOl7ZCKGp4&list=PL-y45TQ2Eb40eQWwH5NjyIjgepk_MonlB&index=3">Adding Users to Weaver.</a> 
+</p>
+
+
+<p>You can access the site at any time using one of the following links.   
+We recommend you take a moment now to explore these links:</p>
+<ul>
+<li><a href="{$baseUrl}v/{$site.key}/$/SiteWorkspaces.htm">Workspaces</a> - a list of all workspaces in the site</li>
+<li><a href="{$baseUrl}v/{$site.key}/$/SiteAdmin.htm">Site Admin</a> - the configuration options for the site owner (you)</li>
+<li><a href="{$baseUrl}v/{$site.key}/$/SiteRoles.htm">Roles</a> - the roles (user groups) for the entire site</li>
+</ul>
+
+<p>Go ahead and create a workspace if you have not already!</p>
+
+
+<div class="tm"></div>
+</div>
+</body></html>
