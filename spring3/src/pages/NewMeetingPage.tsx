@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { DragEvent, FormEvent } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { openWorkspace } from '../data/live'
 import {
   DEFAULT_DATE,
   DEFAULT_TIME,
@@ -10,10 +11,27 @@ import {
   getMeeting,
   type AgendaItem,
 } from '../data/meetings'
+import { useSession } from '../data/session'
+import { weaverPost } from '../data/weaver'
 import { emptyWorkspace, normalizeWorkspaceId, useWorkspaces, workspaceById } from '../data/workspaces'
+
+const ZONE_OFFSET: Record<string, string> = {
+  'EST (US & Canada)': '-05:00',
+  'EDT (US & Canada)': '-04:00',
+  'CST (US & Canada)': '-06:00',
+  'PST (US & Canada)': '-08:00',
+}
+
+function startMillis(date: string, time: string, zone: string) {
+  const offset = ZONE_OFFSET[zone] ?? '-05:00'
+  const parsed = Date.parse(`${date}T${time}:00${offset}`)
+  return Number.isNaN(parsed) ? Date.now() : parsed
+}
 
 function NewMeetingPage() {
   const [params] = useSearchParams()
+  const navigate = useNavigate()
+  const session = useSession()
   const fromAll = params.get('from') === 'all'
   useWorkspaces()
   const workspaceId = normalizeWorkspaceId(params.get('workspace'))
@@ -29,6 +47,7 @@ function NewMeetingPage() {
   const [agenda, setAgenda] = useState<AgendaItem[]>(existing?.agenda ?? defaultAgenda())
   const [dragIndex, setDragIndex] = useState<number | null>(null)
   const [error, setError] = useState('')
+  const [pending, setPending] = useState(false)
 
   useEffect(() => {
     const row = params.get('id') ? getMeeting(params.get('id') as string) : undefined
@@ -99,13 +118,57 @@ function NewMeetingPage() {
     event.preventDefault()
   }
 
+  async function saveMeeting(state: number) {
+    if (!workspace.siteKey || !workspace.pageKey) {
+      setError('Open a workspace before creating a meeting.')
+      return
+    }
+    if (!name.trim()) {
+      setError('A meeting needs a name.')
+      return
+    }
+    setPending(true)
+    setError('')
+    try {
+      const created = await weaverPost<{ id?: string }>(
+        `/v/${encodeURIComponent(workspace.siteKey)}/${encodeURIComponent(workspace.pageKey)}/meetingCreate.json`,
+        {
+          name: name.trim(),
+          state,
+          startTime: startMillis(date, startTime, timezone),
+          duration: total,
+          description: description.trim(),
+          agenda: agenda
+            .filter((item) => item.title.trim())
+            .map((item, index) => ({
+              selected: true,
+              subject: item.title.trim(),
+              duration: item.minutes,
+              position: index + 1,
+            })),
+        },
+      )
+      const you = session.status === 'signed-in' ? session.user : null
+      await openWorkspace(workspace.siteKey, workspace.pageKey, you)
+      if (created.id) {
+        navigate(`/meetings/${created.id}?workspace=${encodeURIComponent(workspace.id)}`)
+        return
+      }
+      navigate(workspace.path)
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to save the meeting.')
+    } finally {
+      setPending(false)
+    }
+  }
+
   function onDraft() {
-    setError('Saving is not connected yet.')
+    void saveMeeting(0)
   }
 
   function onCreate(event: FormEvent) {
     event.preventDefault()
-    setError('Saving is not connected yet.')
+    void saveMeeting(1)
   }
 
   return (
@@ -212,11 +275,11 @@ function NewMeetingPage() {
           <Link className="chip" to={cancelTo}>
             Cancel
           </Link>
-          <button className="chip" type="button" onClick={onDraft}>
+          <button className="chip" type="button" onClick={onDraft} disabled={pending}>
             Save as draft
           </button>
-          <button className="button-light" type="submit">
-            Create meeting
+          <button className="button-light" type="submit" disabled={pending}>
+            {pending ? 'Saving…' : 'Create meeting'}
           </button>
         </div>
       </form>
