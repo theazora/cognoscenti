@@ -2,15 +2,47 @@ import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import ProfileEdit from '../components/profile/ProfileEdit'
 import ProfileView from '../components/profile/ProfileView'
-import { directoryPath, useProfile } from '../data/profiles'
-import { workspaceFromLocation } from '../data/workspaces'
+import { directoryPath, profileSlug, useProfile, type Profile } from '../data/profiles'
+import { initialsFor, useSession, type SessionSnapshot } from '../data/session'
+import { workspaceFromLocation, workspaceIdFor, workspacePath } from '../data/workspaces'
+
+function signedInProfile(slug: string | undefined, session: SessionSnapshot): Profile | undefined {
+  const user = session.status === 'signed-in' ? session.user : null
+  if (!slug || !user) {
+    return undefined
+  }
+  if (slug !== user.key && slug !== profileSlug(user.name)) {
+    return undefined
+  }
+  const email = user.preferred || (user.uid.includes('@') ? user.uid : '')
+  return {
+    slug: user.key,
+    initials: initialsFor(user.name),
+    name: user.name,
+    you: true,
+    email,
+    timeZone: user.timeZone,
+    description: user.description,
+    key: user.key,
+    lastLogin: user.lastLogin,
+    theme: 'default',
+    memberships: session.workspaces.map((row) => ({
+      workspaceId: workspaceIdFor(row.siteKey, row.pageKey),
+      workspaceKey: row.pageKey,
+      workspaceName: row.name,
+      path: workspacePath(row.siteKey, row.pageKey),
+      role: 'member',
+    })),
+  }
+}
 
 function ProfilePage() {
   const { slug } = useParams()
   const [params] = useSearchParams()
   const workspaceId = params.get('workspace')
   const workspace = workspaceFromLocation('/profile', workspaceId ? `?workspace=${workspaceId}` : '')
-  const profile = useProfile(slug)
+  const session = useSession()
+  const profile = useProfile(slug) ?? signedInProfile(slug, session)
   const [editing, setEditing] = useState(false)
 
   useEffect(() => {
@@ -44,8 +76,8 @@ function ProfilePage() {
         )
       ) : (
         <section className="panel profile-section">
-          <h2>Profile not in this prototype</h2>
-          <p>That person is not in the demo directory.</p>
+          <h2>Profile not found</h2>
+          <p>Weaver has no profile loaded for that address.</p>
           <Link className="text-link" to={directoryPath(workspaceId)}>
             Back to profiles
           </Link>

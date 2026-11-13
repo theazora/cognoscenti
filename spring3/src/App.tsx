@@ -9,7 +9,9 @@ import MyMeetingsPage from './pages/MyMeetingsPage'
 import NewMeetingPage from './pages/NewMeetingPage'
 import AskWeaverPage from './pages/AskWeaverPage'
 import NotificationsPage from './pages/NotificationsPage'
+import NewWorkspacePage from './pages/NewWorkspacePage'
 import PlaceholderPage from './pages/PlaceholderPage'
+import SitesPage from './pages/SitesPage'
 import ProfileDirectoryPage from './pages/ProfileDirectoryPage'
 import ProfilePage from './pages/ProfilePage'
 import SearchPage from './pages/SearchPage'
@@ -59,15 +61,7 @@ function App() {
         <Route path="/members" element={<ProfileDirectoryPage />} />
         <Route path="/profile" element={<ProfileDirectoryPage />} />
         <Route path="/profile/:slug" element={<ProfilePage />} />
-        <Route
-          path="/workspaces"
-          element={
-            <PlaceholderPage
-              title="Workspaces"
-              description="Switch workspaces or view the hierarchy map."
-            />
-          }
-        />
+        <Route path="/workspaces" element={<NewWorkspacePage />} />
         <Route
           path="/tasks"
           element={
@@ -77,15 +71,7 @@ function App() {
             />
           }
         />
-        <Route
-          path="/sites"
-          element={
-            <PlaceholderPage
-              title="Sites"
-              description="Sites and organizations you belong to."
-            />
-          }
-        />
+        <Route path="/sites" element={<SitesPage />} />
         <Route
           path="/help"
           element={

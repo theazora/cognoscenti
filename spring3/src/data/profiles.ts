@@ -109,7 +109,7 @@ export function useProfile(slug: string | undefined) {
   if (!slug) {
     return undefined
   }
-  return rows.find((profile) => profile.slug === slug)
+  return rows.find((profile) => profile.slug === slug || profile.key === slug)
 }
 
 export function profileBySlug(slug: string | undefined) {

@@ -29,7 +29,10 @@ function WorkspaceListPage() {
         </div>
       ) : null}
       {session.status === 'signed-in' && workspaces.length === 0 ? (
-        <p className="profile-empty">No workspaces are listed for this account.</p>
+        <p className="profile-empty">
+          No workspaces are listed for this account. <Link to="/sites">Request a site</Link> or{' '}
+          <Link to="/workspaces">create a workspace</Link>.
+        </p>
       ) : null}
       <ul className="workspace-children">
         {workspaces.map((row) => (
