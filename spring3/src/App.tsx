@@ -12,6 +12,11 @@ import NotificationsPage from './pages/NotificationsPage'
 import NewWorkspacePage from './pages/NewWorkspacePage'
 import PlaceholderPage from './pages/PlaceholderPage'
 import SitesPage from './pages/SitesPage'
+import NotesPage from './pages/NotesPage'
+import EmailsPage from './pages/EmailsPage'
+import SettingsPage from './pages/SettingsPage'
+import { AboutPage, HelpPage, PrivacyPage, TermsPage } from './pages/GuidePages'
+import { ActionItemsPage, TasksPage } from './pages/WorkItemsPage'
 import ProfileDirectoryPage from './pages/ProfileDirectoryPage'
 import ProfilePage from './pages/ProfilePage'
 import SearchPage from './pages/SearchPage'
@@ -40,95 +45,23 @@ function App() {
         <Route path="/meetings/:id" element={<MeetingRoomPage />} />
         <Route path="/discussions" element={<DiscussionsPage />} />
         <Route path="/documents" element={<DocumentsPage />} />
-        <Route
-          path="/action-items"
-          element={
-            <PlaceholderPage
-              title="Action items"
-              description="Goals and tasks assigned in this workspace."
-            />
-          }
-        />
-        <Route
-          path="/notes"
-          element={
-            <PlaceholderPage
-              title="Notes"
-              description="Personal scratchpad and workspace notes."
-            />
-          }
-        />
+        <Route path="/action-items" element={<ActionItemsPage />} />
+        <Route path="/notes" element={<NotesPage />} />
         <Route path="/members" element={<ProfileDirectoryPage />} />
         <Route path="/profile" element={<ProfileDirectoryPage />} />
         <Route path="/profile/:slug" element={<ProfilePage />} />
         <Route path="/workspaces" element={<NewWorkspacePage />} />
-        <Route
-          path="/tasks"
-          element={
-            <PlaceholderPage
-              title="Tasks"
-              description="Action items across the workspaces you can see."
-            />
-          }
-        />
+        <Route path="/tasks" element={<TasksPage />} />
         <Route path="/sites" element={<SitesPage />} />
-        <Route
-          path="/help"
-          element={
-            <PlaceholderPage
-              title="Help & support"
-              description="Getting started, the help center, and contact options."
-            />
-          }
-        />
+        <Route path="/help" element={<HelpPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
-        <Route
-          path="/emails"
-          element={
-            <PlaceholderPage
-              title="Emails"
-              description="Workspace email threads and notices."
-            />
-          }
-        />
+        <Route path="/emails" element={<EmailsPage />} />
         <Route path="/ask" element={<AskWeaverPage />} />
-        <Route
-          path="/settings"
-          element={
-            <PlaceholderPage
-              title="Settings"
-              description="Account and workspace preferences."
-            />
-          }
-        />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="/search" element={<SearchPage />} />
-        <Route
-          path="/about"
-          element={
-            <PlaceholderPage
-              title="About"
-              description="What Circle Weaver is and how to get started."
-            />
-          }
-        />
-        <Route
-          path="/privacy"
-          element={
-            <PlaceholderPage
-              title="Privacy"
-              description="How Circle Weaver handles workspace data."
-            />
-          }
-        />
-        <Route
-          path="/terms"
-          element={
-            <PlaceholderPage
-              title="Terms"
-              description="Terms of use for this prototype."
-            />
-          }
-        />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route
           path="*"
           element={

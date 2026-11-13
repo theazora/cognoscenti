@@ -22,6 +22,9 @@ import {
   type WorkspaceDocument,
 } from '../data/documents'
 import { workspaceFromLocation } from '../data/workspaces'
+import { useSession } from '../data/session'
+import { saveLinkedDocument, saveUploadedDocument } from '../data/writes'
+import { openWorkspace } from '../data/live'
 
 type ComposerTab = 'file' | 'link'
 type SortKey = 'updated' | 'created' | 'name'
@@ -46,8 +49,20 @@ const CREATED_OPTIONS: { id: CreatedRange; label: string }[] = [
 
 function DocumentsPage() {
   const [params, setParams] = useSearchParams()
+  const session = useSession()
+  const you = session.status === 'signed-in' ? session.user : null
   const workspace = workspaceFromLocation('/documents', params.toString() ? `?${params.toString()}` : '')
   const documents = useWorkspaceDocuments(workspace.id)
+
+  useEffect(() => {
+    if (!you || !workspace.siteKey || !workspace.pageKey) {
+      return
+    }
+    void openWorkspace(workspace.siteKey, workspace.pageKey, you).catch(() => {
+      // The library still shows whatever was already loaded.
+    })
+  }, [you, workspace.siteKey, workspace.pageKey])
+
   const [kind, setKind] = useState<'all' | DocKind>('all')
   const [query, setQuery] = useState('')
   const [created, setCreated] = useState<CreatedRange>('any')
@@ -64,6 +79,7 @@ function DocumentsPage() {
   const [notify, setNotify] = useState(false)
   const [linkUrl, setLinkUrl] = useState('')
   const [formError, setFormError] = useState('')
+  const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState<WorkspaceDocument | null>(null)
   const [preview, setPreview] = useState<WorkspaceDocument | null>(null)
   const [highlightId, setHighlightId] = useState('')
@@ -228,9 +244,63 @@ function DocumentsPage() {
     openComposer('file', next)
   }
 
-  function submitDocument(event: FormEvent) {
+  async function submitDocument(event: FormEvent) {
     event.preventDefault()
-    setFormError('Saving is not connected yet.')
+    const name = docName.trim()
+    if (!name) {
+      setFormError('A document needs a name.')
+      return
+    }
+    if (!workspace.siteKey || !workspace.pageKey) {
+      setFormError('Open a workspace before adding a document.')
+      return
+    }
+    if (composerTab === 'file' && !file) {
+      setFormError('Choose a file to upload.')
+      return
+    }
+    if (composerTab === 'link' && !linkUrl.trim()) {
+      setFormError('A link needs a URL.')
+      return
+    }
+    setSaving(true)
+    setFormError('')
+    try {
+      const saved =
+        composerTab === 'file' && file
+          ? await saveUploadedDocument(workspace, file, { name, description: description.trim() }, you)
+          : await saveLinkedDocument(
+              workspace,
+              { name, description: description.trim(), url: linkUrl.trim() },
+              you,
+            )
+      setToast({
+        id: saved.id || name,
+        workspaceId: workspace.id,
+        name: saved.name || name,
+        description,
+        kind: composerTab === 'link' ? 'link' : kindFromExtension(extensionOf(file?.name || name)),
+        extension: composerTab === 'link' ? '' : extensionOf(file?.name || name),
+        sizeLabel: file ? formatBytes(file.size) : '',
+        ownerName: you?.name ?? '',
+        ownerInitials: '',
+        createdAt: '',
+        updatedAt: '',
+        href: saved.url || linkUrl.trim(),
+        notify,
+      })
+      setComposerOpen(false)
+      setFile(null)
+      setDocName('')
+      setDescription('')
+      setLinkUrl('')
+      setNameEdited(false)
+      setUploadProgress(0)
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : 'Could not save the document.')
+    } finally {
+      setSaving(false)
+    }
   }
 
   function reveal(item: WorkspaceDocument) {
@@ -536,8 +606,8 @@ function DocumentsPage() {
               <button className="button-light docs-secondary" type="button" onClick={() => setComposerOpen(false)}>
                 Cancel
               </button>
-              <button className="button-solid docs-primary" type="submit">
-                {composerTab === 'file' ? 'Add to workspace' : 'Add link'}
+              <button className="button-solid docs-primary" type="submit" disabled={saving}>
+                {saving ? 'Saving…' : composerTab === 'file' ? 'Add to workspace' : 'Add link'}
               </button>
             </div>
           </div>

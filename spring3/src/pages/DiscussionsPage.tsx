@@ -10,6 +10,9 @@ import {
   type DiscussionStatus,
 } from '../data/discussions'
 import { workspaceFromLocation } from '../data/workspaces'
+import { useSession } from '../data/session'
+import { postDiscussion } from '../data/writes'
+import { openWorkspace } from '../data/live'
 
 type FilterId = 'all' | DiscussionStatus | 'mine' | 'archived'
 
@@ -29,17 +32,31 @@ function wrapSelection(value: string, start: number, end: number, before: string
 
 function DiscussionsPage() {
   const [params] = useSearchParams()
+  const session = useSession()
+  const you = session.status === 'signed-in' ? session.user : null
   const workspace = workspaceFromLocation('/discussions', params.toString() ? `?${params.toString()}` : '')
   const requestedWorkspace = params.get('workspace')
   const discussions = useDiscussions().filter(
     (row) => !requestedWorkspace || row.workspaceId === requestedWorkspace,
   )
+
+  useEffect(() => {
+    if (!you || !workspace.siteKey || !workspace.pageKey) {
+      return
+    }
+    void openWorkspace(workspace.siteKey, workspace.pageKey, you).catch(() => {
+      // The list still shows whatever was already loaded.
+    })
+  }, [you, workspace.siteKey, workspace.pageKey])
+
   const [filter, setFilter] = useState<FilterId>('all')
   const [query, setQuery] = useState('')
   const [composerOpen, setComposerOpen] = useState(params.get('new') === '1')
   const [subject, setSubject] = useState(DEMO_COMPOSER.subject)
   const [body, setBody] = useState(DEMO_COMPOSER.body)
   const [notify, setNotify] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [formError, setFormError] = useState('')
 
   useEffect(() => {
     if (params.get('new') === '1') {
@@ -83,6 +100,7 @@ function DiscussionsPage() {
   function closeComposer() {
     setComposerOpen(false)
     resetComposer()
+    setFormError('')
   }
 
   function applyMarkup(before: string, after: string) {
@@ -97,8 +115,36 @@ function DiscussionsPage() {
     })
   }
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    const intent = (event.nativeEvent as SubmitEvent).submitter?.getAttribute('value')
+    if (!subject.trim()) {
+      setFormError('A discussion needs a subject.')
+      return
+    }
+    if (!workspace.siteKey || !workspace.pageKey) {
+      setFormError('Open a workspace before posting a discussion.')
+      return
+    }
+    setSaving(true)
+    setFormError('')
+    try {
+      await postDiscussion(
+        workspace,
+        {
+          subject: subject.trim(),
+          body: body.trim(),
+          draft: intent === 'draft',
+          notify,
+        },
+        you,
+      )
+      closeComposer()
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : 'Could not post the discussion.')
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -137,7 +183,7 @@ function DiscussionsPage() {
             </span>
             <div>
               <h2>New discussion</h2>
-              <p>Posting in {workspace.name} is not connected yet.</p>
+              <p>This posts in {workspace.name}.</p>
             </div>
             <button className="doc-close" type="button" aria-label="Close" onClick={closeComposer}>
               ×
@@ -193,17 +239,18 @@ function DiscussionsPage() {
               Notify workspace members when published
             </label>
             <div className="discussion-composer-actions">
-              <button className="button-light docs-secondary" type="button" onClick={closeComposer}>
+              <button className="button-light docs-secondary" type="button" onClick={closeComposer} disabled={saving}>
                 Cancel
               </button>
-              <button className="button-light docs-secondary" type="submit">
+              <button className="button-light docs-secondary" type="submit" value="draft" disabled={saving}>
                 Save as draft
               </button>
-              <button className="button-solid docs-primary" type="submit">
-                Publish discussion
+              <button className="button-solid docs-primary" type="submit" value="publish" disabled={saving}>
+                {saving ? 'Saving…' : 'Publish discussion'}
               </button>
             </div>
           </div>
+          {formError ? <p className="form-error">{formError}</p> : null}
         </form>
       ) : (
         <div className="discussion-starter">
