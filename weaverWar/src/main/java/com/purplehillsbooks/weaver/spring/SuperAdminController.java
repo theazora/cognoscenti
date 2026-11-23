@@ -21,6 +21,7 @@
 package com.purplehillsbooks.weaver.spring;
 
 import com.purplehillsbooks.exception.CommonException;
+import com.purplehillsbooks.json.JSONArray;
 import com.purplehillsbooks.json.JSONObject;
 import com.purplehillsbooks.weaver.AddressListEntry;
 import com.purplehillsbooks.weaver.AuthRequest;
@@ -180,6 +181,25 @@ public class SuperAdminController extends BaseController {
         } catch (Exception e) {
             Exception ee =
                     CommonException.newWrap("Unable to update site request (%s)", e, requestId);
+            streamException(ee, ar);
+        }
+    }
+
+    @RequestMapping(value = "/su/siteRequests.json", method = RequestMethod.GET)
+    public void listSiteRequests(HttpServletRequest request, HttpServletResponse response) {
+        AuthRequest ar = AuthRequest.getOrCreate(request, response);
+        try {
+            ar.assertSuperAdmin("Must be a super admin to list site requests.");
+            SiteReqFile siteReqFile = new SiteReqFile(ar.getCogInstance());
+            JSONArray requests = new JSONArray();
+            for (SiteRequest siteRequest : siteReqFile.getAllSiteReqs()) {
+                requests.put(siteRequest.getJSON());
+            }
+            JSONObject result = new JSONObject();
+            result.put("requests", requests);
+            sendJson(ar, result);
+        } catch (Exception e) {
+            Exception ee = CommonException.newWrap("Unable to list site requests.", e);
             streamException(ee, ar);
         }
     }

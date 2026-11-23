@@ -9,6 +9,18 @@ import { applyTheme, readTheme, themes, type ThemeId } from '../theme'
 
 const createItems = [
   {
+    to: '/sites',
+    label: 'Site',
+    detail: 'Request a site, then grant it',
+    icon: '/users1.svg',
+  },
+  {
+    to: '/workspaces',
+    label: 'Workspace',
+    detail: 'Create a workspace inside a site',
+    icon: '/house0.svg',
+  },
+  {
     to: '/meetings/new',
     label: 'Meeting',
     detail: 'Schedule with agenda & Zoom link',
@@ -65,6 +77,7 @@ const circleLinks: NavItem[] = [
 const organizationLinks: NavItem[] = [
   { to: '/notifications', label: 'Notifications', icon: '/bell0.svg' },
   { to: directoryPath(), label: 'Profiles', icon: '/users1.svg', end: true },
+  { to: '/sites', label: 'Sites', icon: '/users0.svg' },
   { to: '/emails', label: 'Emails', icon: '/mail0.svg' },
   { to: '/documents', label: 'Documents', icon: '/file0.svg' },
 ]

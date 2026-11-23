@@ -28,20 +28,30 @@ type ProfileEditProps = {
 
 function ProfileEdit({ profile, onDone, onCancel }: ProfileEditProps) {
   const [draft, setDraft] = useState<ProfileDraft>(() => ownDraft(profile))
+  const [error, setError] = useState('')
+  const [pending, setPending] = useState(false)
 
   function setField<K extends keyof ProfileDraft>(key: K, value: ProfileDraft[K]) {
     setDraft((current) => ({ ...current, [key]: value }))
   }
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    saveOwnProfile({
-      ...draft,
-      name: draft.name.trim() || profile.name,
-      email: draft.email.trim() || profile.email,
-      description: draft.description.trim(),
-    })
-    onDone()
+    setPending(true)
+    setError('')
+    try {
+      await saveOwnProfile(profile.key, {
+        ...draft,
+        name: draft.name.trim() || profile.name,
+        email: draft.email.trim() || profile.email,
+        description: draft.description.trim(),
+      })
+      onDone()
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Could not save the profile.')
+    } finally {
+      setPending(false)
+    }
   }
 
   return (
@@ -120,12 +130,13 @@ function ProfileEdit({ profile, onDone, onCancel }: ProfileEditProps) {
         </select>
       </label>
 
+      {error ? <p className="form-error">{error}</p> : null}
       <div className="profile-actions">
-        <button className="button-light" type="button" onClick={onCancel}>
+        <button className="button-light" type="button" onClick={onCancel} disabled={pending}>
           Cancel
         </button>
-        <button className="button-solid" type="submit">
-          Save
+        <button className="button-solid" type="submit" disabled={pending}>
+          {pending ? 'Saving…' : 'Save'}
         </button>
       </div>
     </form>

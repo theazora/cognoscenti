@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react'
 import { normalizeWorkspaceId, workspaceById, type WorkspaceId } from './workspaces'
+import { weaverFetch, weaverPost } from './weaver'
 
 export type MeetingStatus =
   | 'draft'
@@ -151,7 +152,22 @@ function readStore(): Meeting[] {
 }
 
 export function replaceMeetings(rows: Meeting[]) {
-  cache = rows
+  const previous = cache ?? []
+  cache = rows.map((row) => {
+    if (row.agenda.length > 0) {
+      return row
+    }
+    const prior = previous.find((item) => item.id === row.id)
+    if (!prior || (prior.agenda.length === 0 && !prior.minutes)) {
+      return row
+    }
+    return {
+      ...row,
+      agenda: prior.agenda,
+      minutes: prior.minutes || row.minutes,
+      agendaDocument: prior.agendaDocument || row.agendaDocument,
+    }
+  })
   emit()
 }
 
@@ -164,7 +180,130 @@ export function getMeeting(id: string): Meeting | undefined {
 }
 
 export function saveMeeting(next: Meeting): Meeting {
-  return getMeeting(next.id) ?? next
+  const rows = readStore()
+  const index = rows.findIndex((row) => row.id === next.id)
+  cache = index >= 0 ? rows.map((row) => (row.id === next.id ? next : row)) : [...rows, next]
+  emit()
+  scheduleMeetingPush(next.id)
+  return next
+}
+
+type ServerAgendaItem = {
+  id?: string
+  subject?: string
+  duration?: number
+  description?: string
+  minutes?: string
+}
+
+const pushTimers = new Map<string, number>()
+
+function scheduleMeetingPush(id: string) {
+  const existing = pushTimers.get(id)
+  if (existing) {
+    window.clearTimeout(existing)
+  }
+  pushTimers.set(
+    id,
+    window.setTimeout(() => {
+      pushTimers.delete(id)
+      const latest = getMeeting(id)
+      if (latest) {
+        void pushMeeting(latest)
+      }
+    }, 400),
+  )
+}
+
+function workspaceKeys(workspaceId: string) {
+  const slash = workspaceId.indexOf('/')
+  if (slash <= 0 || slash === workspaceId.length - 1) {
+    return null
+  }
+  return {
+    site: workspaceId.slice(0, slash),
+    page: workspaceId.slice(slash + 1),
+  }
+}
+
+function agendaFromServer(rows: ServerAgendaItem[] | undefined): AgendaItem[] {
+  return (rows ?? [])
+    .filter((row) => row.id)
+    .map((row) => ({
+      id: row.id ?? '',
+      title: row.subject || 'Agenda item',
+      minutes: row.duration || 0,
+      actualMinutes: null,
+      timerRunning: false,
+      timerStartedAt: null,
+      presenter: '',
+      notes: row.description || '',
+    }))
+}
+
+function writeMeeting(next: Meeting) {
+  const rows = readStore()
+  const index = rows.findIndex((row) => row.id === next.id)
+  cache = index >= 0 ? rows.map((row) => (row.id === next.id ? next : row)) : [...rows, next]
+  emit()
+}
+
+async function pushMeeting(next: Meeting) {
+  const keys = workspaceKeys(next.workspaceId)
+  if (!keys || !next.id || next.id.startsWith('m')) {
+    return
+  }
+  try {
+    const saved = await weaverPost<{ agenda?: ServerAgendaItem[] }>(
+      `/v/${encodeURIComponent(keys.site)}/${encodeURIComponent(keys.page)}/meetingUpdate.json?id=${encodeURIComponent(next.id)}`,
+      {
+        duration: plannedMinutes(next),
+        agenda: next.agenda.map((item, index) => ({
+          id: item.id.startsWith('ag-') ? '~new~' : item.id,
+          subject: item.title,
+          duration: item.minutes,
+          position: index + 1,
+          ...(index === 0 && next.minutes ? { minutes: next.minutes } : {}),
+        })),
+      },
+    )
+    const latest = getMeeting(next.id)
+    const agenda = agendaFromServer(saved.agenda)
+    if (!latest || agenda.length !== latest.agenda.length) {
+      return
+    }
+    writeMeeting({
+      ...latest,
+      agenda: latest.agenda.map((item, index) => ({
+        ...item,
+        id: agenda[index]?.id || item.id,
+      })),
+    })
+  } catch {
+    // The typed minutes stay on screen. The next edit tries again.
+  }
+}
+
+export async function pullMeeting(id: string) {
+  const current = getMeeting(id)
+  const keys = current ? workspaceKeys(current.workspaceId) : null
+  if (!current || !keys || current.agenda.length > 0) {
+    return
+  }
+  try {
+    const full = await weaverFetch<{ agenda?: ServerAgendaItem[] }>(
+      `/v/${encodeURIComponent(keys.site)}/${encodeURIComponent(keys.page)}/meetingRead.json?id=${encodeURIComponent(id)}`,
+    )
+    const latest = getMeeting(id)
+    const agenda = agendaFromServer(full.agenda)
+    if (!latest || latest.agenda.length > 0 || agenda.length === 0) {
+      return
+    }
+    const notes = (full.agenda ?? []).map((row) => row.minutes).find((text) => text) ?? ''
+    writeMeeting({ ...latest, agenda, minutes: latest.minutes || notes })
+  } catch {
+    // The meeting room still shows whatever is already loaded.
+  }
 }
 
 export function deleteMeeting(id: string) {

@@ -1,4 +1,6 @@
 import { useSyncExternalStore } from 'react'
+import { refreshSession } from './session'
+import { weaverPost } from './weaver'
 
 /** Role id. `color` is reserved so a color can be added later. Nothing reads it for paint. */
 export type RoleId = 'steward' | 'member'
@@ -109,7 +111,7 @@ export function useProfile(slug: string | undefined) {
   if (!slug) {
     return undefined
   }
-  return rows.find((profile) => profile.slug === slug)
+  return rows.find((profile) => profile.slug === slug || profile.key === slug)
 }
 
 export function profileBySlug(slug: string | undefined) {
@@ -119,7 +121,14 @@ export function profileBySlug(slug: string | undefined) {
   return snapshot.find((profile) => profile.slug === slug)
 }
 
-export function saveOwnProfile(draft: ProfileDraft) {
+export async function saveOwnProfile(userKey: string, draft: ProfileDraft) {
+  await weaverPost(`/v/${encodeURIComponent(userKey)}/updateProfile.json`, {
+    name: draft.name,
+    description: draft.description,
+    timeZone: draft.timeZone,
+    preferred: draft.email,
+  })
+  await refreshSession()
   return draft
 }
 

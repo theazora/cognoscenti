@@ -32,13 +32,26 @@ export async function weaverFetch<T>(path: string, init?: RequestInit): Promise<
     }
   }
   if (!response.ok) {
-    const message =
-      data && typeof data === 'object' && 'message' in data && typeof data.message === 'string'
-        ? data.message
-        : `Weaver request failed (${response.status})`
+    const message = failureMessage(data, response.status)
     throw new WeaverError(message, response.status)
   }
   return data as T
+}
+
+function failureMessage(data: unknown, status: number) {
+  if (data && typeof data === 'object') {
+    const record = data as Record<string, unknown>
+    if (typeof record.message === 'string' && record.message) {
+      return record.message
+    }
+    if (Array.isArray(record.msgs)) {
+      const first = record.msgs.find((item) => typeof item === 'string' && item)
+      if (typeof first === 'string') {
+        return first
+      }
+    }
+  }
+  return `Weaver request failed (${status})`
 }
 
 export async function weaverPost<T>(path: string, body: unknown): Promise<T> {

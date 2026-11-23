@@ -210,6 +210,10 @@ async function runSession() {
   }
 }
 
+export function refreshSession() {
+  return loadWorkspaceSession()
+}
+
 export function startSession() {
   if (!startup) {
     startup = runSession()

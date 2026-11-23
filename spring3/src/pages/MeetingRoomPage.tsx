@@ -16,6 +16,7 @@ import {
   markIcon,
   plannedMinutes,
   saveMeeting,
+  pullMeeting,
   setMeetingStatus,
   startAgendaItem,
   statusLabel,
@@ -71,6 +72,13 @@ function MeetingRoomPage() {
   useEffect(() => {
     setReportsOpen(params.get('reports') === '1')
   }, [params])
+
+  useEffect(() => {
+    if (!id) {
+      return
+    }
+    void pullMeeting(id)
+  }, [id])
 
   useEffect(() => {
     const running = meeting?.agenda.some((item) => item.timerRunning)
