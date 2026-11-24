@@ -28,9 +28,9 @@ If you edit a source file, save, and refresh a Tomcat (or other static) preview 
 
 For UI work with live reload on Vite, run dev mode:
 
-cd spring3
-npm ci (first time only)
-npm run dev
+'cd spring3'
+'npm ci (first time only)'
+'npm run dev'
 Open the Vite URL it prints (usually something like `http://localhost:5173/`)
 
 Edit the files under `spring3/src`. Those changes should show without a full rebuild, and in Chrome you often do not need to refresh because Vite hot-reloads the page.
