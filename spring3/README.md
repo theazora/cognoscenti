@@ -6,7 +6,7 @@ The UI used to be copied into Tomcat's `ROOT`, which replaces whatever site is a
 
 
 In example, the legacy server from this spring3 class:
-- UI: https://s07.circleweaver.com/spring3/
+- UI: https://s07.circleweaver.com/spring3/  (or whatever you would like to name the directory for your build)
 - Weaver: https://s07.circleweaver.com/weaver/
 - baseURL in WEB-INF/config.txt: https://s07.circleweaver.com/weaver/
 - Tomcat UI folder: /opt/tomcat/webapps/spring3/
