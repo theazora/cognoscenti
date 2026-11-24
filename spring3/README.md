@@ -22,30 +22,65 @@ In example, the legacy server from this spring3 class:
 - Node.js 20.19 or newer, or 22.12 or newer. Check with `node -v`.
 - npm, which comes with Node.
 
-## Local UI work (Vite live reload)
+## Local UI Development (Vite Live Reload)
 
-If you edit a source file, save, and refresh a Tomcat (or other static) preview and nothing changes, you are usually looking at an old build. The browser serves `dist` (or a copy of it), not the files under `spring3/src` directly.
+When working on the React UI, use Vite's development server rather than previewing through Tomcat.
 
-For UI work with live reload on Vite, run dev mode:
+**Important:** Tomcat serves the built files from `dist`, not the original source files in `spring3/src`. This means that editing a source file and refreshing a Tomcat preview will not show your changes until you build the app again and copy the updated files over.
 
-'cd spring3'
-'npm ci (first time only)'
-'npm run dev'
-Open the Vite URL it prints (usually something like `http://localhost:5173/`)
+### 1. Start the development server
 
-Edit the files under `spring3/src`. Those changes should show without a full rebuild, and in Chrome you often do not need to refresh because Vite hot-reloads the page.
+From the repository root, run:
 
-Do not expect edits under `spring3/src` to appear instantly if you are only serving a previous `dist` copy. Editing the hashed files inside `dist/assets/` also will not stick the way people expect; the next build replaces them.
+```bash
+cd spring3
+npm ci
+npm run dev
+```
 
-## Build
+- `npm ci` installs the project dependencies. You only need to run this the first time, or when dependencies need to be reinstalled.
+- `npm run dev` starts Vite's development server.
 
-From the repository root:
+### 2. Open the local preview
 
+Vite will print a local URL in your terminal. It will usually look something like:
+
+`http://localhost:5173/`
+
+Open that URL in your browser.
+
+### 3. Make your changes
+
+Edit the files under `spring3/src`.
+
+Vite automatically detects changes and updates the page through **Hot Module Replacement (HMR)**. In most cases, you won't even need to refresh your browser.
+
+**Keep in mind:**
+- Changes to `spring3/src` appear in the Vite preview, not automatically in Tomcat.
+- If you're viewing an older `dist` build through Tomcat, refreshing the page will not update it.
+- Avoid editing files directly inside `dist/assets/`. Those files are generated during the build and will be replaced the next time you run it.
+
+---
+
+## Building the UI
+
+When you're ready to create an updated version of the UI for Tomcat, you need to build the project.
+
+From the repository root, run:
+
+```bash
 cd spring3
 npm ci
 npm run build
+```
 
-The site files are in `spring3/dist`. That folder is not committed.
+This generates the production-ready site files in:
+
+`spring3/dist/`
+
+**The `dist` folder is generated automatically and is not committed to the repository.**
+
+These are the files you'll copy into your Tomcat webapp folder when updating the deployed preview.
 
 ## Install on Tomcat
 
