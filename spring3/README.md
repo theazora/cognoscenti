@@ -2,9 +2,9 @@
 
 The Spring 3 UI is a static React site that sits in its own Tomcat folder next to Weaver. Weaver stays a separate application at `/weaver/`. This build calls that application on the same host.
 
-The UI used to be copied into Tomcat's `ROOT`, which replaces whatever site is already served at `/`. On a Weaver server that root site has to stay, so this build is installed in a folder you choose instead. **The folder name is the address.** `webapps/spring3/` is served at `/spring3/`. The same `dist` works if the folder is named something else, with no second build. Name it `circleweaver` if you want the site at `/circleweaver/` instead, or use any other folder name that fits your server.
+The UI used to be copied into Tomcat's `ROOT`, which replaces whatever site is already served at `/`. On a Weaver server that root site has to stay, so this build is installed in a folder you choose instead. **The folder name is the address.** `webapps/spring3/` is served at `/spring3/`. The same works if the folder is named something else, with no second build. Name it `circleweaver` if you want the site at `/circleweaver/` instead, or use any other folder name that fits your server.
 
-<!--
+
 In example, the legacy server from this spring3 class:
 - UI: https://s07.circleweaver.com/spring3/
 - Weaver: https://s07.circleweaver.com/weaver/
@@ -14,7 +14,7 @@ In example, the legacy server from this spring3 class:
 - Weaver app: /opt/tomcat/webapps/weaver/
 - libFolder: /opt/weaver_sites/
 - userFolder: /opt/weaver_user/
--->
+
 
 ## Prerequisites
 
