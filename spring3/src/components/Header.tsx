@@ -10,7 +10,15 @@ import { initialsFor, loginRedirect, useSession } from '../data/session'
 import { workspaceFromLocation } from '../data/workspaces'
 
 // Theme utilities and shared components
-import { applyTheme, brandMark, readTheme, themes, type ThemeId } from '../theme'
+import {
+  applyTheme,
+  brandMark,
+  DEFAULT_THEME,
+  experimentalThemes,
+  mainThemes,
+  readTheme,
+  type ThemeId,
+} from '../theme'
 import Menu from './Menu'
 import CreateMenu from './CreateMenu'
 
@@ -43,8 +51,11 @@ function Header({ menuOpen, setMenuOpen }: HeaderProps) {
 
   // Apply the selected theme and update the header's theme state
   function chooseTheme(next: ThemeId) {
-    applyTheme(next)
-    setTheme(next)
+    setTheme(applyTheme(next))
+  }
+
+  function onMarkError() {
+    if (theme !== DEFAULT_THEME) setTheme(applyTheme(DEFAULT_THEME))
   }
 
   // Support Cmd+K (Mac) and Ctrl+K (Windows) to focus search
@@ -98,10 +109,16 @@ function Header({ menuOpen, setMenuOpen }: HeaderProps) {
         <span className="brand-logo" aria-hidden="true">
           <picture>
             <source media="(max-width: 767px)" srcSet="/weaver-mark.svg" />
-            <img src={brandMark(theme)} alt="" width={48} height={48} />
+            <img
+              src={brandMark(theme)}
+              alt=""
+              width={48}
+              height={48}
+              onError={onMarkError}
+            />
           </picture>
         </span>
-        <span className="brand-name">Circle Weaver</span>
+        <img className="brand-name" src="/weaver-wordmark.svg" alt="Circle Weaver" />
       </Link>
 
       {/* Desktop search form */}
@@ -163,7 +180,20 @@ function Header({ menuOpen, setMenuOpen }: HeaderProps) {
           </Link>
           <div className="menu-dev" data-keep-open>
             <p>Dev mode</p>
-            {themes.map((option) => (
+            {mainThemes.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                role="menuitemradio"
+                aria-checked={theme === option.id}
+                onClick={() => chooseTheme(option.id)}
+              >
+                <span className={`theme-swatch is-${option.id}`} aria-hidden="true" />
+                {option.label}
+              </button>
+            ))}
+            <p className="theme-group">Experimental</p>
+            {experimentalThemes.map((option) => (
               <button
                 key={option.id}
                 type="button"
