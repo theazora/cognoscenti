@@ -1,57 +1,13 @@
 import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { documentsPath } from '../data/documents'
 import { directoryPath } from '../data/profiles'
+import { documentsPath } from '../data/documents'
 import { initialsFor, loginRedirect, useSession } from '../data/session'
 import { switcherTree, useWorkspaces, workspaceFromLocation, type SwitcherEntry } from '../data/workspaces'
-import Menu from './Menu'
-import { applyTheme, readTheme, themes, type ThemeId } from '../theme'
+import CreateMenu from './CreateMenu'
 
-const createItems = [
-  {
-    to: '/sites',
-    label: 'Site',
-    detail: 'Request a site, then grant it',
-    icon: '/users1.svg',
-  },
-  {
-    to: '/workspaces',
-    label: 'Workspace',
-    detail: 'Create a workspace inside a site',
-    icon: '/house0.svg',
-  },
-  {
-    to: '/meetings/new',
-    label: 'Meeting',
-    detail: 'Schedule with agenda & Zoom link',
-    icon: '/calendar0.svg',
-  },
-  {
-    to: '/discussions?new=1',
-    label: 'Discussion',
-    detail: 'Start a topic for the group',
-    icon: '/msg0.svg',
-  },
-  {
-    to: '/documents',
-    label: 'Document',
-    detail: 'Upload or link a file',
-    icon: '/file0.svg',
-  },
-  {
-    to: '/action-items',
-    label: 'Action item',
-    detail: 'Assign a task with a due date',
-    icon: '/check0.svg',
-  },
-  {
-    to: '/notes',
-    label: 'Note',
-    detail: 'Private or shared notes',
-    icon: '/pen0.svg',
-  },
-]
-
+// Props shared with the workspace layout to control
+// mobile navigation and the collapsible desktop sidebar
 type SidebarProps = {
   menuOpen: boolean
   collapsed: boolean
@@ -59,6 +15,7 @@ type SidebarProps = {
   onToggleCollapsed: () => void
 }
 
+// Defines the structure of links displayed in the sidebar
 type NavItem = {
   to: string
   label: string
@@ -68,6 +25,8 @@ type NavItem = {
   count?: number
 }
 
+// Navigation links grouped by their purpose
+// These arrays keep the sidebar content separate from its JSX
 const circleLinks: NavItem[] = [
   { to: '/meetings', label: 'Meetings', icon: '/slides0.svg' },
   { to: '/tasks', label: 'To-do Tasks', icon: '/square-check0.svg' },
@@ -86,6 +45,9 @@ function navClassName(isActive: boolean) {
   return `nav-item${isActive ? ' current' : ''}`
 }
 
+// Main sidebar component
+// Handles navigation, workspace selection, appearance settings,
+// and the Create menu for desktop and mobile layouts
 function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarProps) {
   const location = useLocation()
   const session = useSession()
@@ -94,15 +56,10 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
   const user = session.status === 'signed-in' ? session.user : null
   const tree = switcherTree(workspace)
   const [switcherOpen, setSwitcherOpen] = useState(false)
-  const [appearanceOpen, setAppearanceOpen] = useState(false)
   const [askNote, setAskNote] = useState(false)
-  const [theme, setTheme] = useState<ThemeId>(() => readTheme())
 
-  function chooseTheme(next: ThemeId) {
-    applyTheme(next)
-    setTheme(next)
-  }
 
+  // Expand the sidebar first when collapsed so the workspace options can be displayed
   function onSwitcherClick() {
     if (collapsed) {
       onToggleCollapsed()
@@ -114,6 +71,8 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
 
   return (
     <aside className={`sidebar${menuOpen ? ' sidebar-open' : ''}`}>
+
+      {/* User account information and sidebar collapse control */}
       <div className="sidebar-top">
         {user ? (
           <Link className="sidebar-user" to={`/profile/${user.key}`}>
@@ -142,51 +101,45 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
           <PanelIcon collapsed={collapsed} />
         </button>
       </div>
-
+       {/* Primary navigation, Create menu, and workspace selection */}
       <div className="primary-navigation">
-        <Menu
-          className="create-button"
-          menuClassName="create-menu"
-          ariaLabel="Create"
-          label={
-            <>
-              <img src="/plus0.svg" alt="" width={14} height={14} />
-              <span>Create</span>
-              <img className="create-chevron" src="/chevron-down0.svg" alt="" width={14} height={14} />
-            </>
-          }
-        >
-          <p className="create-menu-heading">Create in {workspace.name}</p>
-          {createItems.map((item) => (
-            <Link
-              key={item.label}
-              className="create-option"
-              to={
-                item.label === 'Meeting'
-                  ? `/meetings/new?workspace=${workspace.id}`
-                  : item.label === 'Document'
-                    ? documentsPath(workspace.id, 'file')
-                    : item.to
-              }
-              role="menuitem"
-              onClick={closeMenu}
-            >
-              <span className="icon-tile">
-                <img src={item.icon} alt="" width={18} height={18} />
-              </span>
-              <span className="create-option-text">
-                <strong>{item.label}</strong>
-                <span>{item.detail}</span>
-              </span>
-            </Link>
-          ))}
-        </Menu>
+        <CreateMenu
+          workspaceId={workspace.id}
+          workspaceName={workspace.name}
+          closeMenu={closeMenu}
+        />
 
-        <nav aria-label="My Weaver" onClick={closeMenu}>
-          <p className="section-label">My Weaver</p>
+      {/* Dashboard navigation */}
+        <nav aria-label="Dashboard">
+          <p className="section-label">Dashboard</p>
+
           <NavRow
-            item={{ to: workspace.path, label: 'Home', icon: '/house0.svg', end: true }}
+            item={{
+              to: workspace.path,
+              label: 'Home',
+              icon: '/house0.svg',
+              end: true
+            }}
+            onClick={closeMenu}
           />
+
+          {circleLinks.map((item) => (
+            <NavRow
+              key={item.label}
+              item={item}
+              onClick={closeMenu}
+            />
+          ))}
+        </nav>
+
+        {/* Workspace selection */}
+        <section aria-label="Workspace">
+          <div className="sidebar-workspace-heading">
+            <p className="section-label">Workspace</p>
+            <p className="workspace-description">
+              Your team's shared space for meetings, tasks and documents
+            </p>
+          </div>
 
           <div className={`workspace-switcher-block${switcherOpen ? ' is-open' : ''}`}>
             <button
@@ -199,6 +152,7 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
               <span className="workspace-avatar" aria-hidden="true">
                 {workspace.code}
               </span>
+
               <span className="workspace-name">
                 <strong>{workspace.name}</strong>
                 <span>
@@ -206,77 +160,56 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
                   {workspace.members} members
                 </span>
               </span>
-              <img className="switcher-chevron" src="/chevron-down0.svg" alt="" width={14} height={14} />
+
+              <img
+                className="switcher-chevron"
+                src="/chevron-down0.svg"
+                alt=""
+                width={14}
+                height={14}
+              />
             </button>
 
-            {switcherOpen && !collapsed ? (
+            {switcherOpen && (menuOpen || !collapsed) ? (
               <div className="workspace-children">
                 <SwitcherRow entry={tree.parent} onClick={closeMenu} />
+
                 {tree.teams.map((entry) => (
-                  <SwitcherRow key={entry.code} entry={entry} onClick={closeMenu} />
+                  <SwitcherRow
+                    key={entry.code}
+                    entry={entry}
+                    onClick={closeMenu}
+                  />
                 ))}
-                <Link className="manage-workspaces" to="/workspaces" onClick={closeMenu}>
+
+                <Link
+                  className="manage-workspaces"
+                  to="/workspaces"
+                  onClick={closeMenu}
+                >
                   Manage Workspaces
                 </Link>
               </div>
             ) : null}
           </div>
+        </section>
 
-          {circleLinks.map((item) => (
-            <NavRow key={item.label} item={item} />
-          ))}
-        </nav>
-
-        <nav
-          id="workspace-navigation"
-          aria-label="Organization"
-          onClick={closeMenu}
-        >
+        {/* Organization navigation */}
+        <nav id="workspace-navigation" aria-label="Organization">
           <p className="section-label">Organization</p>
+
           {organizationLinks.map((item) => (
             <NavRow
               key={item.label}
-              item={item.label === 'Documents' ? { ...item, to: documentsPath(workspace.id) } : item}
+              item={item.label === 'Documents'
+                ? { ...item, to: documentsPath(workspace.id) }
+                : item}
+              onClick={closeMenu}
             />
           ))}
         </nav>
-    <div className="mobile-theme-selector">
-      <button
-        type="button"
-        className="appearance-toggle"
-        aria-expanded={appearanceOpen}
-        aria-controls="appearance-options"
-        onClick={() => setAppearanceOpen((open) => !open)}
-      >
-        <span>Appearance</span>
-        <span aria-hidden="true">{appearanceOpen ? '⌃' : '⌄'}</span>
-      </button>
-
-      {appearanceOpen && (
-        <div
-          id="appearance-options"
-          className="mobile-theme-options"
-          role="group"
-          aria-label="Choose theme"
-        >
-          {themes.map((option) => (
-            <button
-              key={option.id}
-              type="button"
-              aria-pressed={theme === option.id}
-              onClick={() => chooseTheme(option.id)}
-            >
-              <span
-                className={`theme-swatch is-${option.id}`}
-                aria-hidden="true"
-              />
-              {option.label}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  </div>
+      </div>
+      {/* Ask Weaver placeholder until the feature is available */}
       <button
         className={`ask-weaver${askNote ? ' is-open' : ''}`}
         type="button"
@@ -293,6 +226,7 @@ function Sidebar({ menuOpen, collapsed, closeMenu, onToggleCollapsed }: SidebarP
   )
 }
 
+// Renders a workspace option in the expanded workspace switcher
 function SwitcherRow({
   entry,
   onClick,
@@ -323,13 +257,21 @@ function SwitcherRow({
   )
 }
 
-function NavRow({ item }: { item: NavItem }) {
+// Reusable navigation link with active-route styling
+function NavRow({
+  item,
+  onClick,
+}: {
+  item: NavItem
+  onClick: () => void
+}) {
   return (
     <NavLink
       to={item.to}
       end={item.end}
       className={({ isActive }) => navClassName(isActive)}
       aria-label={item.label}
+      onClick={onClick}
     >
       <img
         className={item.invert ? 'icon-on-dark' : undefined}
@@ -346,6 +288,7 @@ function NavRow({ item }: { item: NavItem }) {
   )
 }
 
+// Sidebar collapse icon changes direction based on its state
 function PanelIcon({ collapsed }: { collapsed: boolean }) {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">

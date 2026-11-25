@@ -44,11 +44,14 @@ function Footer() {
   }
 
   return (
-    <footer>
+    <footer className="site-footer">
       <div className="footer-top">
         <Link className="footer-brand" to="/">
           <span className="footer-mark" aria-hidden="true">
-            <img src={brandMark(theme)} alt="" width={40} height={40} />
+            <picture>
+              <source media="(max-width: 767px)" srcSet="/weaver-mark.svg" />
+              <img src={brandMark(theme)} alt="" width={40} height={40} />
+            </picture>
           </span>
           Circle Weaver
         </Link>
@@ -75,16 +78,15 @@ function Footer() {
             link.label === 'Documents' ? { ...link, to: documentsPath(workspace.id) } : link,
           )}
         />
-        <FooterColumn title="Administration" links={adminLinks} />
+        <FooterColumn title="Administration" links={adminLinks} className="footer-admin" />
       </div>
 
-      <p className="footer-legal">
-        © {new Date().getFullYear()} Weaver. All rights reserved.{' '}
-        <Link to="/settings">Privacy Settings</Link>
-        {' | '}
-        <Link to="/privacy">Privacy Notice</Link>
-        {' | '}
-        <Link to="/terms">Terms of Service</Link>
+      <p className="footer-legal footer-legal-mobile">
+        © {new Date().getFullYear()} Weaver
+        {' · '}
+        <Link to="/privacy">Privacy</Link>
+        {' · '}
+        <Link to="/terms">Terms</Link>
       </p>
     </footer>
   )
@@ -93,18 +95,20 @@ function Footer() {
 function FooterColumn({
   title,
   links,
+  className,
 }: {
   title: string
   links: { to: string; label: string }[]
+  className?: string
 }) {
   return (
-    <nav aria-label={title}>
-      <p>{title}</p>
-      {links.map((link) => (
-        <Link key={link.label} to={link.to}>
-          {link.label}
-        </Link>
-      ))}
+    <nav aria-label={title} className={className}>
+    <p>{title}</p>
+    {links.map((link) => (
+      <Link key={link.label} to={link.to}>
+        {link.label}
+      </Link>
+    ))}
     </nav>
   )
 }
